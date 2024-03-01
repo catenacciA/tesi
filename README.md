@@ -25,3 +25,14 @@ Eseguire i seguenti comandi nel terminale, sostituendo `/path/to` con i percorsi
 ```bash
 export TEXINPUTS=/path/to/chapters:
 export BIBINPUTS=/path/to/bibliography:
+```
+
+Per rendere queste variabili d'ambiente permanenti, aggiungere i comandi precedenti al file `.bashrc` o `.bash_profile`, se utilizzi Bash, o al file `.zshrc`, se utilizzi Zsh.:
+
+```bash
+echo "export TEXINPUTS=/path/to/chapters:" >> ~/.bashrc
+echo "export BIBINPUTS=/path/to/bibliography:" >> ~/.bashrc
+```
+
+## Licenza
+Questo progetto di tesi è rilasciato sotto licenza CC BY-NC-ND 4.0 DEED - vedi il file [LICENSE](LICENSE) per maggiori dettagli.
