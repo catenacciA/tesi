@@ -1,15 +1,1 @@
-# Ignora tutto
-*
-
-# Non ignorare le directory, così puoi esplorarle
-!*/
-
-# Permetti file tex, bib e pdf
-!*.tex
-!*.bib
-!*.pdf
-!LICENSE
-!README.md
-
-# Non ignorare il file .gitignore
-!.gitignore
+out
