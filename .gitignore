@@ -1,0 +1,6 @@
+# Ignora tutti i file tranne .tex, .bib e .pdf
+*
+!.tex
+!.bib
+!.pdf
+!.gitignore
