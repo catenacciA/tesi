@@ -1,6 +1,13 @@
-# Ignora tutti i file tranne .tex, .bib e .pdf
+# Ignora tutto
 *
-!.tex
-!.bib
-!.pdf
+
+# Non ignorare le directory, così puoi esplorarle
+!*/
+
+# Permetti file tex, bib e pdf
+!*.tex
+!*.bib
+!*.pdf
+
+# Non ignorare il file .gitignore
 !.gitignore

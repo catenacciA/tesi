@@ -1,0 +1,149 @@
+\documentclass[12pt]{book}
+
+% Character encoding and language setup
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+
+% Font setup
+\usepackage{lmodern}
+
+\usepackage{soul}
+\usepackage{xcolor} % Per personalizzare i colori dell'evidenziatore
+
+
+
+% Typography improvements
+\usepackage{microtype}
+
+% Table improvements
+\usepackage{booktabs}
+\usepackage{tabularx}
+
+% To include images
+\usepackage{graphicx}
+
+% For subfigures
+\usepackage{lettrine}
+
+% Mathematical symbols and environments
+\usepackage{amssymb,amsmath,amsfonts}
+
+% For onehalf spacing
+\usepackage{setspace}
+\onehalfspacing
+
+% For indicator symbol
+\usepackage{bbm}
+
+% Bibliography setup
+\usepackage[backend=biber,style=numeric,sortcites,natbib=true,sorting=none]{biblatex}
+\addbibresource{ref.bib}
+
+% Proper quotation marks
+\usepackage[autostyle=true]{csquotes}
+
+% For decorative initial letters
+\usepackage{lettrine}
+
+% For unit and number formatting
+\usepackage{siunitx}
+
+% Filler text
+\usepackage{lipsum}
+
+% For complex diagrams
+\usepackage{tikz}
+\usetikzlibrary{calc,intersections}
+
+% For text wrapping around figures
+\usepackage{wrapfig}
+
+% Header and footer customization
+\usepackage{fancyhdr}
+
+% Section title customization
+\usepackage{titlesec}
+
+% Adjusting page layout
+\usepackage{geometry}
+\geometry{
+  top=3cm,
+  bottom=3cm,
+  left=4cm,
+  right=3cm,
+  headheight=15pt,
+  includeheadfoot
+}
+
+% Hyperlinks setup, loaded last before geometry to avoid conflicts
+\usepackage{hyperref}
+\hypersetup{
+    hidelinks
+}
+
+% Header and footer configuration
+\pagestyle{fancy} % Imposta lo stile della pagina su "fancy"
+\fancyhf{} % Pulisce le intestazioni e i piè di pagina predefiniti
+\fancyhead[LE,RO]{\bfseries\thepage} % Numero di pagina
+\fancyhead[LO]{\nouppercase{\rightmark}} % Nome del capitolo/sezioni sulle pagine dispari
+\fancyhead[RE]{\nouppercase{\leftmark}} % Nome del capitolo sulle pagine pari
+
+\renewcommand{\chaptermark}[1]{\markboth{#1}{}} % Personalizza l'header dei capitoli
+
+\fancypagestyle{plain}{ % Stile per il primo pagina di ogni capitolo
+    \fancyhf{} % Pulisce header/footer
+    \renewcommand{\headrulewidth}{0pt} % Nasconde la linea dell'header
+    \fancyfoot[C]{\bfseries\thepage} % Numero di pagina al centro del footer
+}
+
+% Imposta lo stile delle pagine vuote su "empty"
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+  \hbox{}
+  \thispagestyle{empty} % Imposta lo stile della pagina vuota su "empty"
+  \newpage
+  \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother
+
+\raggedbottom % Avoids adding vertical space to fill the page
+
+\begin{document}
+
+% Front matter setup
+\frontmatter
+\pagenumbering{Roman}
+\include{frontespizio}
+
+% Quote page setup
+\newpage
+\thispagestyle{empty}
+\vspace*{\fill}
+\begin{quote}
+\centering
+\emph{``Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua''.}\\
+\vspace*{2ex}
+--- Citazione/Dedica
+\end{quote}
+\vspace*{\fill}
+
+% Adjusting spacing for TOC, LOF, and LOT
+\begin{spacing}{1.3}
+\tableofcontents
+\clearpage
+\listoffigures
+\clearpage
+\listoftables
+\end{spacing}
+
+\include{introduzione}
+
+% Main matter setup
+\mainmatter
+\include{stato_arte}
+
+% Back matter setup
+\backmatter
+\printbibliography
+
+\end{document}

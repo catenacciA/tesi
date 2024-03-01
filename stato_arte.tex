@@ -1,0 +1,223 @@
+\chapter{Lavori Correlati e Stato dell'Arte}
+\hspace{\parindent}L'esame del contesto storico e dell'evoluzione tecnologica ha l'obiettivo di sottolineare l'importanza dei sistemi di localizzazione indoor in grado di soddisfare le esigenze dinamiche degli ambienti industriali. Questo segmento si dedica all'esplorazione dei diversi metodi e delle innovazioni tecnologiche utilizzate nello sviluppo di tali sistemi, evidenziando i progressi che hanno definito lo stato dell'arte attuale.
+
+\section{Contesto Storico}
+\lettrine[lines=2]{L}{'}evoluzione dei sistemi di localizzazione interna ha preso le mosse dalla necessità di superare le limitazioni del GPS in ambienti chiusi, il quale, a causa della sua incapacità di penetrare attraverso pareti e oggetti, non può essere utilizzato~\cite{bisio_pervasive_2011}. Inizialmente, si sono utilizzate tecnologie come l'infrarosso, RFID e le prime implementazioni di reti di sensori wireless. Questi approcci pionieristici hanno cercato di affrontare le problematiche tipiche degli interni, come l'indebolimento e l'interferenza del segnale, attraverso avanzate tecniche di elaborazione e triangolazione del segnale.
+
+Con il passare del tempo, le esigenze di localizzazione interna sono cresciute in termini di precisione, velocità di risposta e affidabilità, anche in condizioni ambientali difficili. Ciò ha portato allo sviluppo e all'adozione di tecnologie più avanzate, come l'Ultra-wideband (UWB), il Bluetooth Low Energy (BLE) e soluzioni basate sull'Internet delle Cose (IoT). Queste tecnologie si distinguono per la loro alta precisione, copertura e capacità di adattarsi a variazioni ambientali. In particolare, l'UWB si è affermato come uno standard di riferimento per la sua eccezionale capacità di misurazione precisa del tempo e resistenza alle interferenze.~\cite{Karaagac2017}
+
+Parallelamente, l'integrazione di tecniche di machine learning e algoritmi adattivi ha incrementato l'intelligenza dei sistemi di localizzazione, permettendo loro di apprendere dalle caratteristiche ambientali e migliorare progressivamente l'accuratezza. L'adozione di algoritmi come l'\textit{On-Line Sequential Extreme Learning Machine} (OS-ELM) ha offerto promettenti miglioramenti nella precisione di localizzazione, adattandosi efficacemente ai cambiamenti dell'ambiente.~\cite{Zou2015}
+
+Oltre alle tecnologie esistenti, è emersa la necessità di incorporare misurazioni più complesse per affrontare la localizzazione in tre dimensioni, specialmente per oggetti o persone che si muovono verticalmente. Questo implica l'uso di sensori aggiuntivi, come i barometri~\cite{bisio_wifi_barometer_2018}, che possono fornire dati sulla pressione atmosferica per stimare l'altitudine. L'aggiunta di queste misurazioni si rivela cruciale in ambienti dove la localizzazione tradizionale mostra i suoi limiti, offrendo una comprensione più completa dello spazio e migliorando significativamente la precisione della localizzazione 3D.
+
+\section{Tecnologie}
+\subsection{Wi-Fi (Wireless Fidelity)}
+\hspace{\parindent}La tecnologia Wi-Fi, che rappresenta uno standard essenziale per le reti senza fili, facilita la comunicazione tra dispositivi senza la necessità di connessioni fisiche, attraverso l'uso delle onde radio. Governata dallo standard IEEE 802.11, questa tecnologia specifica i protocolli per l'attuazione delle reti locali wireless (WLAN). La sua popolarità, sia in ambienti domestici che commerciali, deriva dalla sua efficacia nel fornire connettività Internet ad alta velocità entro un raggio operativo, tipicamente fino a 100 metri in spazi chiusi, variabile in base alle condizioni specifiche dell'ambiente e del tipo di apparecchiatura impiegata.
+
+\noindent Un esempio notevole di tale applicazione è lo studio di Duvallet e Tews~\cite{duvallet_wifi_position_2008}, che dimostra un uso del Wi-Fi per il posizionamento indoor. Questo lavoro propone un algoritmo di localizzazione Wi-Fi che utilizza la regressione dei processi gaussiani (GPR) per creare mappe di intensità del segnale Wi-Fi, permettendo così di determinare con precisione la posizione di un dispositivo. Questo metodo si distingue per la sua capacità di operare senza modifiche all'ambiente esistente o l'aggiunta di infrastrutture supplementari, offrendo una soluzione cost-efficiente per la navigazione interna.
+
+In particolare, l'efficacia di questo sistema è stata testata in un contesto industriale con l'uso di un veicolo autonomo di dimensioni significative, simile a un carrello elevatore, per validare la precisione dell'algoritmo. Combinando il sistema di localizzazione Wi-Fi con un dispositivo di posizionamento laser, gli autori dello studio hanno dimostrato la sua efficacia non solo per il posizionamento iniziale ma anche per il recupero in caso di errori di localizzazione, fornendo così un meccanismo affidabile per la navigazione in ambienti industriali complessi, sia interni che esterni. Questi sviluppi evidenziano il potenziale del Wi-Fi non solo come mezzo per l'accesso a Internet ma anche come strumento per migliorare significativamente la precisione e l'affidabilità della localizzazione indoor.
+
+\subsection{RFID (Radio Frequency Identification)}
+\hspace{\parindent}La tecnologia di Identificazione a Radio Frequenza (RFID) utilizza campi elettromagnetici al fine di identificare e tracciare etichette fissate agli oggetti, l'RFID opera sul principio dell'induzione elettromagnetica in etichette passive o segnali alimentati a batteria in etichette attive. Le etichette passive RFID non hanno una propria fonte di alimentazione ma raccolgono energia dal campo elettromagnetico generato dal lettore RFID, il che le rende più leggere, meno costose, e con una vita operativa potenzialmente illimitata fintanto che rimangono integre. Al contrario, le etichette attive RFID sono dotate di una propria batteria che consente loro di trasmettere segnali a distanze maggiori e di supportare funzionalità aggiuntive come sensori e memorie maggiori. Questa distinzione è cruciale per la progettazione e l'implementazione degli IPS, poiché le etichette attive possono essere utilizzate per applicazioni che richiedono una maggiore portata e una migliore precisione nella localizzazione, mentre quelle passive sono preferite per applicazioni che richiedono costi ridotti e semplicità di implementazione.
+
+\noindent Queste etichette sono incorporate con informazioni digitali che i lettori RFID possono rilevare e interpretare su distanze che variano da alcuni centimetri a diversi metri, a seconda della banda di frequenza utilizzata e del tipo di etichetta RFID.
+
+Nel dispiegamento degli IPS basati su RFID, la tecnologia sfrutta lettori RFID distribuiti spazialmente che scansionano continuamente i segnali emessi dalle etichette. Ogni etichetta possiede un identificatore unico, consentendo al sistema di tracciare con precisione la posizione di oggetti o individui all'interno di un ambiente interno. La complessità tecnica dell'RFID negli IPS risiede nella sua capacità di operare su varie bande di frequenza—bassa frequenza (LF), alta frequenza (HF) e ultra-alta frequenza (UHF)—ciascuna offrendo diverse portate e capacità di penetrazione. I sistemi LF e HF sono tipicamente utilizzati per applicazioni a corto raggio con minore suscettibilità a interferenze da oggetti metallici e liquidi, rendendoli adatti per ambienti come ospedali o negozi al dettaglio. L'UHF, d'altra parte, fornisce portate di lettura più lunghe e tassi di trasferimento dati più veloci, ideali per il tracciamento di inventari su larga scala o per localizzare individui in spazi interni ampi.
+
+L'architettura di un IPS basato su RFID implica una rete complessa di lettori e etichette, dove il campo di rilevamento di ciascun lettore è attentamente pianificato per coprire aree specifiche all'interno dell'edificio. Attraverso metodi di triangolazione, differenza temporale di arrivo (TDoA) o indicazione della forza del segnale ricevuto (RSSI), il sistema può dedurre la posizione dell'etichetta con vari gradi di accuratezza e precisione. La triangolazione utilizza le proprietà geometriche dei triangoli per stimare le posizioni delle etichette, il TDoA calcola la differenza di tempo affinché un segnale raggiunga più lettori, e l'RSSI valuta la forza del segnale per inferire la prossimità a un lettore.
+
+Inoltre, l'integrazione dell'RFID negli IPS richiede algoritmi sofisticati e tecniche di elaborazione dei dati per mitigare l'interferenza dei segnali, il fading multipath e le condizioni di non-linea-di-vista, che sono prevalenti negli ambienti interni. Algoritmi avanzati di filtraggio e di apprendimento automatico sono impiegati per affinare le stime di posizione, migliorando così l'affidabilità e l'accuratezza delle informazioni sulla posizione.
+
+L'utilizzo della tecnologia RFID, sia attiva che passiva, negli IPS presenta un approccio multisfaccettato al posizionamento interno~\cite{habaebi2020mobile}, offrendo scalabilità, flessibilità e adattabilità in vari settori industriali. Dal consentire il tracciamento di asset in tempo reale nella logistica al facilitare la navigazione dei pazienti nelle strutture sanitarie, gli IPS basati su RFID sono diventati strumentali nel razionalizzare le operazioni, migliorare la sicurezza e potenziare le esperienze utente in contesti interni. I progressi tecnici e le continue ricerche nella tecnologia RFID continuano ad ampliarne le capacità e le applicazioni nel posizionamento interno, promettendo efficienze e innovazioni ancora maggiori in futuro.
+
+\subsection{UWB (Ultra-Wideband)}
+\hspace{\parindent}Ultra-Wideband (UWB) rappresenta un mezzo sofisticato di comunicazione e localizzazione, distintosi per l'impiego di frequenze estremamente ampie con una larghezza di banda superiore a 500 MHz o al 20\% della frequenza centrale. Questa tecnologia opera emettendo impulsi molto brevi di onde radio e ciò consente la trasmissione di dati ad alte velocità su brevi distanze, mentre l'ampio spettro di utilizzo contribuisce alla sua resilienza contro il fading multipath e l'interferenza del segnale. Nel contesto dei Sistemi di Posizionamento Indoor, l'UWB offre una precisione e un'efficienza senza pari, rendendolo un candidato ideale per il tracciamento preciso della posizione all'interno degli ambienti interni.
+
+L'implementazione della tecnologia UWB negli IPS sfrutta la sua alta risoluzione temporale dovuta alla strettezza dell'impulso. Questa caratteristica consente la misurazione precisa del Tempo di Volo (ToF) dei segnali da un trasmettitore a un ricevitore, permettendo così il calcolo delle distanze con una precisione a livello di centimetro. Gli IPS basati su UWB sono tipicamente composti da tag (anche detti beacon) UWB, che possono essere attaccati agli oggetti o indossati dagli individui, e da ancoraggi o lettori UWB posizionati strategicamente all'interno di uno spazio interno. Quando un tag trasmette un segnale, più ancoraggi lo ricevono e, calcolando il tempo che il segnale impiega per viaggiare dal tag a ciascun ancoraggio, il sistema può triangolare con accuratezza la posizione del tag.
+La sofisticazione tecnica dell'UWB negli IPS va oltre la sua precisione. I segnali UWB sono capaci di penetrare attraverso ostacoli come muri e mobili, che comunemente ostacolano altre tecnologie a frequenza radio, garantendo così un tracciamento interno affidabile anche in ambienti complessi. Inoltre, il consumo energetico dell'UWB è generalmente considerato basso e questo lo rende sostenibile per un uso a lungo termine in dispositivi alimentati a batteria, una considerazione essenziale per le implementazioni scalabili degli IPS.
+
+Inoltre, il dispiegamento dell' UWB negli IPS richiede tecniche avanzate di elaborazione dei segnali e analisi dei dati per interpretare con accuratezza i segnali nel dominio temporale per il posizionamento. Ciò comporta l'uso di algoritmi che possono gestire efficacemente la propagazione multipath, dove i segnali rimbalzano sulle superfici prima di raggiungere il ricevitore, una sfida comune negli ambienti interni. Algoritmi di filtraggio sofisticati e di apprendimento automatico sono spesso impiegati per migliorare l'accuratezza delle informazioni sul posizionamento e per differenziare tra segnali diretti e riflessi, affinando ulteriormente le prestazioni del sistema.
+
+L'applicazione dell'UWB negli IPS ha rivoluzionato vari settori, inclusi logistica, retail e sanità, facilitando il tracciamento di asset, l'assistenza alla navigazione e l'analisi spaziale. La sua capacità di fornire dati di posizione in tempo reale ad alta precisione supporta un'ampia gamma di applicazioni, dall'aumento della sicurezza tramite il controllo degli accessi al miglioramento dell'efficienza operativa attraverso la gestione e l'ottimizzazione degli asset.
+
+L'evoluzione continua della tecnologia UWB, unitamente alla sua integrazione in elettronica di consumo e dispositivi mobili, continua ad espanderne il potenziale, annunciando una nuova era di capacità di posizionamento interno che promette di trasformare il modo in cui navigiamo e interagiamo con gli spazi interni.
+
+\subsection{Bluetooth e BLE (Bluetooth Low Energy)}
+
+\hspace{\parindent}La tecnologia Bluetooth, è uno standard di comunicazione wireless di primo piano, che facilita lo scambio di dati a corto raggio tra dispositivi fissi e mobili sulla banda radio industriale, scientifica e medica (ISM) di 2.4 GHz. Essa comprende sia il Bluetooth convenzionale (Bluetooth Classico) che lo standard Bluetooth Low Energy (BLE), quest'ultimo introdotto come parte della specifica core del Bluetooth 4.0. Il BLE, distinto per il suo notevolmente ridotto consumo di energia e costi mantenendo un range di comunicazione simile, è stato sviluppato per soddisfare il crescente mercato dei dispositivi IoT (Internet delle Cose). Nel campo dei Sistemi di Posizionamento Indoor, il BLE presenta una soluzione versatile ed efficiente, particolarmente apprezzata per i suoi bassi requisiti energetici e l'ampia adozione in smartphone e dispositivi indossabili.
+
+L'utilizzo del BLE negli IPS si basa sul dispiegamento di beacon BLE—piccoli dispositivi wireless alimentati a batteria che trasmettono il loro identificativo ai dispositivi elettronici portatili nelle vicinanze. Il principio di funzionamento coinvolge l'installazione di questi beacon in posizioni note all'interno di un ambiente interno. Man mano che un dispositivo si muove attraverso questo ambiente, scandisce i segnali dai beacon vicini, con i valori dell'RSSI utilizzati come approssimazione per la stima della distanza. Analizzando l'RSSI da più beacon, un IPS può impiegare tecniche di triangolazione, fingerprinting o prossimità per stimare la posizione del dispositivo con vari gradi di accuratezza.~\cite{qureshi2018analysis}
+
+Una delle principali sfide tecniche negli IPS basati su BLE è la fluttuazione dei valori di RSSI a causa di fattori ambientali quali il movimento umano, ostacoli e interferenze multipath, che possono incidere significativamente sull'accuratezza del sistema. Per mitigare questi problemi, vengono applicati algoritmi avanzati e tecniche di elaborazione dei segnali, inclusi filtri di Kalman, filtri particellari e modelli di apprendimento automatico, per affinare le stime della posizione. Questi metodi migliorano la stabilità e l'affidabilità dei dati di posizionamento, consentendo esperienze di navigazione interna più precise e consistenti.
+
+L'adozione del BLE negli IPS si estende attraverso numerose applicazioni, dal retail e la logistica alla sanità e agli edifici intelligenti, facilitando non solo la navigazione e il tracciamento degli asset, ma anche la pubblicità personalizzata, il monitoraggio ambientale e la gestione della sicurezza. La sua integrazione nella stragrande maggioranza di smartphone e tablet ha ulteriormente democratizzato l'accesso agli IPS, consentendo una vasta gamma di applicazioni consapevoli del contesto che migliorano l'efficienza operativa, aumentano il coinvolgimento degli utenti e forniscono preziose intuizioni sul comportamento degli utenti e sull'utilizzo degli asset negli spazi interni.
+
+In conclusione, le tecnologie Bluetooth e BLE sono emerse come componenti fondamentali nello sviluppo degli IPS, offrendo una miscela di accuratezza, efficienza e flessibilità. I continui avanzamenti nelle specifiche del BLE e il miglioramento costante degli algoritmi di elaborazione dei segnali e di localizzazione promettono di potenziare ulteriormente le capacità e le applicazioni degli IPS basati su BLE, rendendoli uno strumento indispensabile nel panorama in evoluzione delle soluzioni di posizionamento e navigazione interni.
+
+\subsection{Zigbee}
+\hspace{\parindent}Zigbee, una tecnologia di comunicazione wireless a bassa potenza e basso tasso di trasmissione dati, si basa sulla norma IEEE 802.15.4 e opera nelle bande di 2.4 GHz, 900 MHz e 868 MHz. Progettata per reti mesh multi-hop, Zigbee è ottimizzata per progetti di piccola scala che richiedono una bassa larghezza di banda e una lunga durata della batteria, rendendola particolarmente adatta per applicazioni nell'IoT. Nei Sistemi di Posizionamento Indoor, le capacità di rete mesh di Zigbee consentono un framework robusto e affidabile per il tracciamento e la localizzazione di oggetti o individui all'interno di ambienti interni.
+
+L'applicazione di Zigbee negli IPS si basa sul dispiegamento di una rete di nodi Zigbee (comprendenti coordinatori, router e dispositivi finali) che comunicano tra loro per formare una rete mesh. Questa architettura di rete migliora l'affidabilità del segnale attraverso percorsi multipli, garantendo una connettività coerente anche in ambienti interni complessi dove la linea di vista può essere ostruita. I nodi Zigbee possono fungere da punti di riferimento in un sistema di posizionamento interno, dove le loro posizioni note consentono la triangolazione della posizione di un dispositivo basata su misurazioni della forza del segnale o tecniche di ToA (Time of Arrival).
+
+Uno dei punti di forza di Zigbee nelle applicazioni IPS è il suo basso consumo energetico, che estende la durata della batteria di dispositivi mobili e sensori, una caratteristica essenziale per implementazioni IPS scalabili e sostenibili. Inoltre, la capacità di Zigbee di supportare un gran numero di nodi all'interno di una rete la rende adatta per ambienti interni estesi, come magazzini, ospedali e edifici per uffici, dove è richiesta una copertura completa.
+
+Tuttavia, l'implementazione di Zigbee negli IPS pone alcune sfide, tra cui la necessità di un dispiegamento denso di nodi per ottenere un'elevata precisione di localizzazione e la gestione della complessità della rete all'aumentare del numero di nodi. Per affrontare queste sfide, vengono impiegati algoritmi sofisticati e tecniche di gestione della rete per ottimizzare l'elaborazione dei segnali, il coordinamento dei nodi e la trasmissione dei dati, migliorando così l'accuratezza e l'efficienza degli IPS basati su Zigbee.
+
+\subsection{LoRaWAN (Long Range Wide Area Network)}
+\hspace{\parindent}LoRaWAN è un protocollo di rete a lunga distanza e bassa potenza progettato per connettere senza fili `oggetti' operati a batteria a Internet in reti regionali, nazionali o globali. Si basa sulla tecnica di modulazione LoRa (Long Range), che consente una comunicazione sicura e bidirezionale su lunghe distanze con un consumo energetico minimo. LoRaWAN opera nelle bande di frequenza sub-gigahertz, che variano a seconda della regione (ad esempio, 868 MHz in Europa, 915 MHz in Nord America), ed è distinto per la sua capacità di mantenere una connettività affidabile su distanze di diversi chilometri, anche in ambienti sfidanti che tipicamente pongono problemi ai segnali wireless.
+
+Negli IPS, LoRaWAN è particolarmente apprezzato per la sua applicazione in ambienti interni di grande scala e complessi, dove le tecnologie IPS tradizionali possono incontrare limitazioni a causa dell'attenuazione del segnale, interferenze o vincoli architettonici. L'uso di LoRaWAN negli IPS sfrutta la sua infrastruttura di rete, comprendente gateway, server di rete e server di applicazioni, per facilitare la localizzazione di oggetti o individui. Ciò viene tipicamente realizzato attraverso tecniche come l'RSSI, la TDoA o una combinazione di entrambe, per stimare la posizione di un dispositivo rispetto a più gateway all'interno della rete LoRaWAN.
+
+L'integrazione di LoRaWAN nelle soluzioni IPS offre diversi vantaggi tecnici, inclusa una durata estesa della batteria grazie al suo basso consumo energetico, che è cruciale per il dispiegamento di tag di localizzazione o sensori operati a batteria. Inoltre, la sua capacità di coprire grandi aree interne con un numero relativamente ridotto di gateway riduce il costo e la complessità infrastrutturale associati al dispiegamento di un IPS. Tuttavia, il maggior raggio di azione della tecnologia si ottiene a scapito dell'accuratezza di localizzazione rispetto a tecnologie a corto raggio come BLE o Wi-Fi, posizionando LoRaWAN come una soluzione più adatta per applicazioni che richiedono un tracciamento approssimativo della posizione su ampie aree piuttosto che un posizionamento preciso.
+
+Nonostante questi compromessi, LoRaWAN rimane una scelta convincente per applicazioni IPS in scenari come il tracciamento di asset in grandi siti industriali, il monitoraggio del movimento di merci in hub logistici o la garanzia della sicurezza del personale in strutture estese. La sua capacità di passare senza soluzione di continuità tra il tracciamento interno ed esterno migliora ulteriormente la sua utilità in scenari in cui asset o individui si spostano attraverso confini interni-esterni. Come tale, l'adozione di LoRaWAN negli IPS esemplifica la sua utilità più ampia nelle applicazioni IoT, bilanciando le esigenze di comunicazione a lungo raggio, l'uso di bassa potenza e la necessità di un'accuratezza di posizionamento sufficiente all'interno dei vincoli di casi d'uso specifici.
+
+\begin{table}[ht]
+    \centering
+    \caption{Confronto tra le tecnologie wireless per il posizionamento indoor.~\cite{Sadowski2018}}
+    \label{tab:wireless_comparison}
+    \begin{tabularx}{\textwidth}{@{}lccX@{}}
+        \toprule
+        Tecnologia & {Range di Trasmissione (m)} & {Bitrate (Mbits/s)} & {Requisiti di alimentazione} \\
+        \midrule
+        WiFi       & 70                          & 288.8               & Moderati                 \\
+        BLE 4.0    & 60                          & 25                  & Bassi                    \\
+        Zigbee     & 75                          & 0.25                & Bassi                    \\
+        LoRaWAN    & 15000                       & 0.05                & Molto Bassi              \\
+        \bottomrule
+    \end{tabularx}
+\end{table}
+
+\section{Metodi di Localizzazione}
+\subsection{Localizzazione basata su RSSI}
+\hspace{\parindent}L'Indicatore di Forza del Segnale Ricevuto (RSSI) rappresenta un elemento fondamentale nella risoluzione delle sfide associate alla localizzazione al chiuso. Misurando l'intensità con cui un segnale viene ricevuto, l' RSSI offre un metodo semplice ed efficace per sfruttare le reti wireless esistenti ai fini della localizzazione. La relazione inversa tra la forza del segnale e la distanza dalla sua fonte costituisce il principio su cui si basa l'uso del RSSI negli IPS, permettendo di dedurre la posizione di un dispositivo attraverso l'analisi dell'attenuazione del segnale.
+
+Tuttavia, la precisione di questa metodologia è soggetta all'influenza di vari fattori, quali ostacoli fisici, riflessioni del segnale e interferenze, che possono complicare notevolmente l'esatta determinazione della posizione. Per fronteggiare queste sfide, diventa essenziale adottare un approccio matematico sofisticato, capace di interpretare le complessità della propagazione del segnale.
+
+Nel tentativo di superare le limitazioni intrinseche delle misurazioni RSSI, questo lavoro esplora l'applicazione di modelli matematici avanzati. Questi modelli offrono una rappresentazione più accurata del modo in cui i segnali si diffondono e interagiscono con l'ambiente, consentendo di affinare le stime di distanza e migliorare l'accuratezza della localizzazione. Tra le varie tecniche esaminate, particolare attenzione è dedicata al modello log-distanza, il quale rappresenta una soluzione robusta per gestire l'incertezza delle misurazioni RSSI e per ottimizzare i processi di localizzazione attraverso l'uso combinato di metodi quali il fingerprinting e la trilaterazione.
+
+Il modello log-distanza~\cite{Mazuelas2009RobustIndoor}, in particolare, si basa sulla seguente relazione per descrivere la perdita di potenza del segnale in funzione della distanza dalla fonte:
+
+\begin{equation}
+    PL(d) = PL(d_0) + 10 \cdot n \cdot \log_{10}\left(\frac{d}{d_0}\right) + X_{\sigma}
+\end{equation}
+
+\noindent In questa espressione, la perdita di segnale $PL(d)$ a una distanza $d$ si calcola a partire da una perdita di segnale di riferimento $PL(d_0)$ a una distanza iniziale $d_0$. Il parametro $n$ rappresenta l'esponente di perdita di segnale che indica la velocità con cui il segnale perde intensità man mano che si allontana dalla fonte. La distanza dal trasmettitore è indicata con $d$. Infine, $X_{\sigma}$ denota una variabile aleatoria gaussiana con media zero che considera l'ombreggiatura (shadow fading) causata da eventuali ostacoli sul cammino del segnale.
+
+Data la misurazione RSSI, la distanza stimata $(d)$ al trasmettitore può essere calcolata riarrangiando il modello di perdita di percorso:
+\begin{equation}
+    \displaystyle{d = d_0 \cdot 10^{\frac{RSSI - PL(d_0)}{10 \cdot n}}}
+\end{equation}
+
+\noindent Questa equazione mostra come i valori RSSI possano essere utilizzati per stimare le distanze, che sono input cruciali per il processo di trilaterazione.
+
+Determinare il valore di $X_{\sigma}$ rappresenta una sfida cruciale nella realizzazione di modelli per la propagazione dei segnali in ambienti interni, in particolare quando si utilizzano sistemi di posizionamento basati su Wi-Fi. Infatti, gli oggetti possono sperimentare variazioni considerevoli del segnale RSSI emesso da un Access Point (AP) quando entrano in un ambiente o svoltano un angolo, a causa dell'ombreggiatura provocata da porte e pareti. Un valore di $X_{\sigma}$ predefinito non è adeguato per soddisfare le necessità specifiche, portando così a significativi errori nella stima della posizione. Questo problema sottolinea l'importanza di sviluppare un approccio più flessibile e accurato per calcolare $X_{\sigma}$ al fine di migliorare la precisione del posizionamento.
+
+\subsection{Trilaterazione}
+\hspace{\parindent}La trilaterazione è una tecnica geometrica utilizzata per determinare la posizione sconosciuta di un punto misurando la sua distanza da almeno tre punti noti. Nel contesto della localizzazione indoor, questi punti noti sono tipicamente access point wireless o beacon con posizioni note.
+
+\noindent Affinché la trilaterazione funzioni, si parte dalla formula di base della distanza tra due punti in un piano, data da:
+
+\begin{equation}
+    d = \sqrt{(x-x_i)^2 + (y-y_i)^2}
+\end{equation}
+
+\noindent dove $(x,y)$ rappresenta le coordinate della posizione sconosciuta, e $(x_i,y_i)$ sono le coordinate dell'$i$-esimo punto noto, con $d$ che rappresenta la distanza tra questi punti stimata dalle misurazioni RSSI.
+
+Dati almeno tre di tali distanze da punti noti, possiamo impostare un sistema di equazioni:
+
+\begin{equation}
+    \begin{cases}
+        \sqrt{(x-x_1)^2 + (y-y_1)^2} &= d_1 \\
+        \sqrt{(x-x_2)^2 + (y-y_2)^2} &= d_2 \\
+        \sqrt{(x-x_3)^2 + (y-y_3)^2} &= d_3 \\
+    \end{cases}
+\end{equation}
+
+\begin{wrapfigure}{r}{0.5\textwidth}
+    \centering
+    \begin{tikzpicture}[scale=0.5]
+        \node (A) at (0,0) {};
+        \node (B) at (4,0) {};
+        \node (C) at (2,3) {};
+
+        \fill (A) circle (2pt) node[below left] {$A$};
+        \fill (B) circle (2pt) node[below right] {$B$};
+        \fill (C) circle (2pt) node[above] {$C$};
+        
+        \coordinate (P) at (2,1);
+        \fill (P) circle (2pt) node[right] {$P$};
+        
+        \draw[name path=circleA] (A) circle (2.24);
+        \draw[name path=circleB] (B) circle (2.24);
+        \draw[name path=circleC] (C) circle (2);
+        
+        \draw[dashed] (A) -- node[below] {$d_A$} (P);
+        \draw[dashed] (B) -- node[below] {$d_B$} (P);
+        \draw[dashed] (C) -- node[above right]  {$d_C$} (P);
+    \end{tikzpicture}
+    \caption{Esempio di trilaterazione con tre punti noti $A$, $B$, $C$ e un punto sconosciuto $P$.}
+    \label{fig:trilaterazione}
+\end{wrapfigure}
+
+
+Risolvendo il sistema di equazioni, possiamo identificare le coordinate $(x,y)$ del target nell'ambiente. Tuttavia, imprecisioni di misurazione e variabili ambientali che alterano il RSSI richiedono l'uso di metodi di ottimizzazione, come la stima a minimi quadrati, per ottenere la migliore approssimazione della posizione che riduca al minimo l'errore tra le distanze misurate e quelle calcolate.
+
+\subsection{Fingerprinting}
+\hspace{\parindent}Un metodo alternativo per stimare la distanza senza dover convertire direttamente la potenza del segnale in metri è il confronto dei segnali RSSI con una mappa digitale specifica. Questa tecnica, nota come mappatura spaziale, si divide in due momenti distinti: l'analisi preliminare e l'individuazione in tempo reale.
+
+Durante l'analisi preliminare, si procede con l'esplorazione dell'area d'interesse per raccogliere e catalogare i segnali RSSI ("impronte digitali") in vari punti predefiniti, creando così un archivio dati. La fase successiva, ovvero l'individuazione in tempo reale, avviene quando le rilevazioni RSSI effettuate su un dispositivo portatile vengono accostate a quelle presenti nell'archivio, al fine di localizzare l'utente. È possibile che il set di AP, disponibili durante questa fase, differisca da quello originariamente mappato a causa dell'eventuale rimozione o inserimento di nuovi AP o per variazioni nella potenza di trasmissione. Di conseguenza, è fondamentale un meccanismo di selezione degli AP per l'aggiornamento in tempo reale. La posizione viene determinata confrontando i segnali attuali con quelli memorizzati, identificando così la localizzazione più probabile dell'utente. Un ostacolo nell'uso della mappatura spaziale è dato dalla possibile discrepanza tra i segnali RSSI precedentemente archiviati e quelli attuali, dovuta a modifiche ambientali o nelle configurazioni degli AP. L'aggiunta o rimozione di AP richiede un aggiornamento dell'archivio dati. Inoltre, le rilevazioni RSSI possono variare in base al dispositivo utilizzato. Nonostante queste difficoltà, il metodo di mappatura spaziale si è affermato per la sua affidabilità nella localizzazione basata su reti WLAN.
+
+La tecnica di mappatura può seguire un approccio deterministico o probabilistico. Con il primo, si identifica la posizione che meglio corrisponde ai segnali RSSI rilevati confrontandoli con l'archivio. Nel metodo probabilistico, invece, i segnali sono interpretati come variabili di una distribuzione di probabilità e la localizzazione dell'utente viene calcolata attraverso la probabilità che deriva dal confronto tra le rilevazioni in tempo reale e i dati memorizzati.
+
+\subsubsection{Mappa Radio}
+\hspace{\parindent}La creazione di una mappa dei segnali radio, fondamentale nella fase preliminare di apprendimento, consiste nell'annotazione dei livelli di segnale RSSI raccolti in posizioni definite, note come siti di calibrazione. Questo metodo permette di registrare le dinamiche di diffusione del segnale in ambienti chiusi, superando le sfide poste dalla modellazione dei percorsi di trasmissione del segnale, notoriamente complessi. Tuttavia, la fase di raccolta dati per la costituzione di questa mappa è notevolmente dispendiosa in termini di tempo e risorse. La strutturazione della mappa prevede la suddivisione dell'area d'interesse in una griglia basata su una mappa dettagliata del sito. All'interno di ogni segmento della griglia, si effettuano misurazioni dei segnali emessi da vari AP, raccolte in specifici siti di calibrazione per un periodo definito e successivamente inserite nel database della mappa. Un elemento della mappa può essere descritto dalla seguente formula:
+
+\begin{equation}
+    M_i = \left(S_i, \{r_{ij} \mid j \in T_i\}, \phi_i\right), \quad i = 1, \ldots, M
+\end{equation}
+
+\noindent dove $S_i$ indica il segmento della griglia corrispondente alla posizione $i$-esima di calibrazione, $r_{ij}$ rappresenta i livelli RSSI rilevati da $AP_j$, $T_i$ è l'insieme degli AP rilevabili dal sito di calibrazione $i$-esimo, e $\phi_i$ è un vettore di parametri aggiuntivi rilevanti nella fase di localizzazione, quali ad esempio l'angolazione dell'antenna, l'ora del giorno, ecc.
+
+Fattori quali l'orientamento del dispositivo di ricezione durante le misure, la varietà dei dispositivi utilizzati per le rilevazioni e la presenza di ostacoli fisici all'interno dell'edificio possono influenzare i livelli RSSI registrati.
+
+Con il passare del tempo, l'affidabilità della mappa dei segnali tende a diminuire a causa delle modifiche nella potenza di trasmissione degli AP e di altri cambiamenti strutturali, come lo spostamento di mobili o pareti. Di conseguenza, è necessario effettuare misurazioni aggiuntive a intervalli regolari per assicurare l'aggiornamento e la precisione della mappa.
+
+\subsubsection{Algoritmo di Fingerprinting}
+\hspace{\parindent}La maggior parte degli approcci di fingerprinting sfruttano la minimizzazione della distanza euclidea nell'ambito dello spazio di misurazione dei segnali di forza del segnale ricevuto, prendendo in considerazione le letture da tutti gli Access Point rilevati.~\cite{Seco2009} In tale contesto, la posizione stimata dell'utente viene identificata con il punto di calibrazione che mostra la minore distanza in termini di discrepanza tra i valori RSSI misurati e quelli registrati durante la fase di mappatura preliminare, espresso come segue:
+
+\begin{equation}
+    \hat{x} = \arg\min_{x_j} \sum_{i=1}^{n} (r_i - \rho_i(x_j))^2
+\end{equation}
+
+\noindent Qui, $r_i$ rappresenta il RSSI rilevato dall'$i$-esimo AP durante il processo di localizzazione in tempo reale, mentre $\rho_i(x_j)$ indica il valore di fingerprint RSSI per l'$i$-esimo AP acquisito nel punto di calibrazione $j$-esimo durante la fase di ricognizione.
+
+Tradizionalmente, nella determinazione della posizione, ogni fingerprint contribuisce in modo equivalente alla stima finale. Un approccio più raffinato consiste nell'attribuire un peso differenziato ai vari fingerprint attraverso ciò che è noto come il metodo KNN (K-nearest neighbors)~\cite{Honkavirta2009}. La logica sottostante prevede l'assegnazione di una maggiore incidenza ai fingerprint più vicini in termini di distanza nel dominio RSSI.
+
+Le tecniche basate sui vicini più prossimi si distinguono per essere non parametriche, vantando semplicità di implementazione, resilienza agli errori e un grado di precisione generalmente elevato.
+
+\subsubsection{Fingerprinting Probabilistico}
+\hspace{\parindent}Si basa sulla stima delle distribuzioni di probabilità dei valori RSSI per identificare la posizione più probabile dell'oggetto, utilizzando la formula~\cite{Seco2009}:
+
+\begin{equation}
+    \hat{x} = \arg\max_x (p(x \mid r_1, ..., r_n))
+\end{equation}
+
+\noindent Questo processo impiega la regola di Bayes per calcolare la distribuzione a posteriori della posizione dell'oggetto, considerando sia la verosimiglianza dei dati RSSI osservati in quella posizione sia una distribuzione a priori delle possibili posizioni dell'oggetto:
+
+\begin{equation}
+    p(x \mid r_1, ..., r_n) = \frac{p(r_1, ..., r_n \mid x) p(x)}{p(r_1, ..., r_n)}
+\end{equation}
+
+\noindent Nella pratica, si assume spesso una distribuzione a priori uniforme, indicando che ogni località ha la stessa probabilità di contenere l'oggetto, a meno che non siano disponibili informazioni aggiuntive che suggeriscano il contrario. La funzione di verosimiglianza, $ p(r_1, ..., r_n \mid x) $, può essere determinata attraverso approcci parametrici o non parametrici, basandosi su distribuzioni statistiche dei dati di fingerprint raccolti.
+
+I modelli di area di copertura (CA) e i modelli di perdita di percorso rappresentano due approcci nel fingerprinting probabilistico. I modelli CA utilizzano una rappresentazione probabilistica per indicare dove il segnale di un AP specifico è stato ricevuto, basandosi sulla densità dei dati di fingerprint. Questi modelli non mappano direttamente l'area geografica di copertura, ma piuttosto modellano la probabilità che un oggetto si trovi in una data posizione, adattandosi alle variazioni ambientali e agli ostacoli.
+
+D'altra parte, i modelli di perdita di percorso esaminano come la potenza del segnale RSSI decresce con l'aumentare della distanza dall'AP, impiegando modelli matematici per questa relazione. La calibrazione precisa di questi modelli, basata sui dati di fingerprinting, è essenziale per una stima accurata della posizione, riducendo la necessità di trasferire volumi significativi di dati e semplificando così il processo di localizzazione.
+
+\subsection{Metriche di Prestazione e Ottimizzazione}
+\hspace{\parindent}Le prestazioni dei sistemi di localizzazione indoor sono spesso valutate in base all'accuratezza, alla precisione e alla robustezza. L'accuratezza si riferisce a quanto la posizione stimata sia vicina alla posizione reale, mentre la precisione indica la consistenza delle misurazioni di localizzazione ripetute nelle stesse condizioni. La robustezza misura la capacità del sistema di mantenere le prestazioni nonostante i cambiamenti ambientali o le interferenze del segnale.
+
+Per ottimizzare queste metriche, vengono applicate tecniche avanzate quali algoritmi di apprendimento automatico, tecniche di filtraggio (ad es., filtri di Kalman) e metodi di elaborazione del segnale. Questi approcci possono migliorare la stima delle distanze dalle misurazioni RSSI, affinare il processo di trilaterazione e, in definitiva, potenziare le prestazioni complessive del sistema di localizzazione.  Inoltre, la raccolta di dati estensiva e la calibrazione accurata dei dispositivi di localizzazione sono essenziali per garantire la precisione e l'affidabilità delle stime di posizione.
+
