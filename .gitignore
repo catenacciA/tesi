@@ -8,6 +8,8 @@
 !*.tex
 !*.bib
 !*.pdf
+!LICENSE
+!README.md
 
 # Non ignorare il file .gitignore
 !.gitignore
