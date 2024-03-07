@@ -1,0 +1,99 @@
+% Character encoding and language setup
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[italian]{babel}
+
+% Font setup for better readability and modern look
+\usepackage{lmodern} % Improved version of the Computer Modern font
+
+% Enhanced package for text highlighting
+\usepackage{soul}
+\usepackage{xcolor} % For customizing highlighter colors
+
+% Typography improvements for better text appearance
+\usepackage{microtype}
+
+% Improved tables with additional features
+\usepackage{booktabs} % For professional quality tables
+\usepackage{tabularx} % For tables with adjustable-width columns
+
+% To include images and enable more flexible figure placement
+\usepackage{graphicx}
+\usepackage{float} % For more precise figure placement with the [H] specifier
+
+% Subfigures and captions
+\usepackage{caption}
+\usepackage{subcaption} % Allows for subfigures within a single figure environment
+
+% Mathematical symbols and environments for enhanced mathematics typesetting
+\usepackage{amssymb,amsmath,amsfonts}
+
+% Setting the spacing to one-and-half for better readability
+\usepackage{setspace}
+\onehalfspacing
+
+% For indicator symbol in mathematics
+\usepackage{bbm}
+
+% Bibliography setup with modern BibLaTeX
+\usepackage[backend=biber,style=numeric,sortcites=true,natbib=true,sorting=none]{biblatex}
+\addbibresource{bibliography/ref.bib} 
+
+% Proper quotation marks with language-specific styles
+\usepackage[autostyle=true]{csquotes}
+
+% For decorative initial letters in chapter beginnings
+\usepackage{lettrine}
+
+% For unit and number formatting, especially in scientific documents
+\usepackage{siunitx}
+
+% Filler text for draft purposes (can be removed in the final document)
+\usepackage{lipsum}
+
+% For complex diagrams and schematics
+\usepackage{tikz}
+\usetikzlibrary{calc,intersections}
+
+% For text wrapping around figures
+\usepackage{wrapfig}
+
+% Customization of headers and footers
+\usepackage{fancyhdr}
+
+% Section title customization for a more distinctive look
+\usepackage{titlesec}
+
+% Adjusting page layout for a more customized appearance
+\usepackage{geometry}
+\geometry{
+  top=3cm,
+  bottom=3cm,
+  left=3cm, % Adjusted for symmetric horizontal margins
+  right=3cm,
+  headheight=15pt,
+  includeheadfoot
+}
+
+% Hyperlinks setup for internal and external links
+\usepackage{hyperref}
+\hypersetup{
+  hidelinks
+}
+
+\pagestyle{fancy} % Imposta lo stile della pagina su "fancy"
+\fancyhf{} % Pulisce le intestazioni e i piè di pagina predefiniti
+\fancyhead[LE,RO]{\bfseries\thepage} % Numero di pagina
+\fancyhead[LO]{\nouppercase{\rightmark}} % Nome del capitolo/sezioni sulle pagine dispari
+\fancyhead[RE]{\nouppercase{\leftmark}} % Nome del capitolo sulle pagine pari
+
+% Ensuring empty pages are truly blank (no headers or footers)
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+  \hbox{}
+  \thispagestyle{empty}
+  \newpage
+  \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother
+
+\raggedbottom % Prevents stretching of vertical spaces
