@@ -105,7 +105,9 @@ Il modello log-distanza~\cite{Mazuelas2009RobustIndoor}, in particolare, si basa
 
 \noindent In questa espressione, la perdita di segnale $PL(d)$ a una distanza $d$ si calcola a partire da una perdita di segnale di riferimento $PL(d_0)$ a una distanza iniziale $d_0$. Il parametro $n$ rappresenta l'esponente di perdita di segnale che indica la velocità con cui il segnale perde intensità man mano che si allontana dalla fonte. La distanza dal trasmettitore è indicata con $d$. Infine, $X_{\sigma}$ denota una variabile aleatoria gaussiana con media zero che considera l'ombreggiatura (shadow fading) causata da eventuali ostacoli sul cammino del segnale.
 
-Data la misurazione RSSI, la distanza stimata $(d)$ al trasmettitore può essere calcolata riarrangiando il modello di perdita di percorso:
+\pagebreak
+
+\noindent Data la misurazione RSSI, la distanza stimata $(d)$ al trasmettitore può essere calcolata riarrangiando il modello di perdita di percorso:
 \begin{equation}
     \displaystyle{d = d_0 \cdot 10^{\frac{RSSI - PL(d_0)}{10 \cdot n}}}
 \end{equation}
@@ -125,7 +127,9 @@ Determinare il valore di $X_{\sigma}$ rappresenta una sfida cruciale nella reali
 
 \noindent dove $(x,y,z)$ rappresenta le coordinate della posizione sconosciuta, e $(x_i,y_i, z_i)$ sono le coordinate dell'$i$-esimo punto noto, con $d$ che rappresenta la distanza tra questi punti stimata dalle misurazioni RSSI.
 
-Dati almeno tre di tali distanze da punti noti, possiamo impostare un sistema di equazioni:
+\pagebreak
+
+\noindent Dati almeno tre di tali distanze da punti noti, possiamo impostare un sistema di equazioni:
 
 \begin{equation}
     \begin{cases}
@@ -221,15 +225,15 @@ D'altra parte, i modelli di perdita di percorso esaminano come la potenza del se
 
 \subsubsection{Time of Flight (ToF)}
 
-\hspace{\parindent}La metodologia Time of Flight (ToF), anche conosciuto come Time of Arrival (ToA), sfrutta il tempo di propagazione del segnale per calcolare la distanza tra il trasmettitore (Tx) e il ricevitore (Rx). Questa tecnica misura il tempo di percorrenza del segnale da Tx a Rx, sfruttando la velocità nota del segnale. Ad esempio, le onde sonore a $20 \degree \text{C}$ viaggiano a 343 $\displaystyle{m/s}$ e necessitano di circa 30 $ms$ per coprire 10 $m$, mentre i segnali radio, che viaggiano alla velocità della luce ($\sim$ \num{300000} $\displaystyle{km/s}$), richiedono circa 30 nanosecondi per la stessa distanza. Ciò evidenzia la necessità di meccanismi di temporizzazione precisi nelle misurazioni via radio, complicando e aggiungendo costi alle reti di sensori.
+\hspace{\parindent}La tecnica Time of Flight (ToF), conosciuta anche come Time of Arrival (ToA), calcola la distanza tra un trasmettitore (Tx) e un ricevitore (Rx) misurando il tempo che un segnale impiega per viaggiare tra i due. Questo metodo si basa sulla velocità nota del segnale per determinare la misurazione. Ad esempio, le onde sonore viaggiano a \(343 \, \text{m/s}\) a \(20^\circ \text{C}\) e richiedono circa \(30 \, \text{ms}\) per coprire \(10 \, \text{m}\). Invece, i segnali radio, che si muovono alla velocità della luce (circa \(3 \times 10^8 \, \text{m/s}\)), impiegano solo \(30 \, \text{ns}\) per percorrere la stessa distanza. Questo evidenzia la necessità di meccanismi di temporizzazione precisi nelle misurazioni radio, un aspetto che aggiunge complessità e costi alle reti di sensori wireless.
 
 \begin{figure}[H]
     \centering
     \begin{adjustbox}{width=\linewidth,keepaspectratio}
     \begin{tikzpicture}[>=latex]
         % Diagram (a)
-        \node (i1) at (0,0) {Nodo $i$};
-        \node (j1) at (0,-1) {Nodo $j$};
+        \node (i1) at (0,0) {$\text{Tx}$};
+        \node (j1) at (0,-1) {$\text{Rx}$};
         \draw[->] (i1.east) -- ++(3,0) node[near start, above] {$t_1$};
         \draw[->] (j1.east) -- ++(3,0) node[midway, below] {$t_2$};
         \draw[->] (i1) (1.5,0) -- ++(j1.east);
@@ -241,8 +245,8 @@ D'altra parte, i modelli di perdita di percorso esaminano come la potenza del se
             \node (j2) at (0,-1) {};
             \draw[->] (i2.east) -- ++(3,0) node[pos=0.27, above] {$t_1$};
             \draw[->] (i2.east) -- ++(3,0) node[pos=0.73, above] {$t_4$};
-            \draw[->] (j2.east) -- ++(3,0) node[pos=0.63, below] {$t_2$};
-            \draw[->] (j2.east) -- ++(3,0) node[pos=0.40, below] {$t_3$};
+            \draw[->] (j2.east) -- ++(3,0) node[pos=0.63, below] {$t_3$};
+            \draw[->] (j2.east) -- ++(3,0) node[pos=0.40, below] {$t_2$};
     
     
             \draw[->] (i2.east) (1,0) -- ++($(j2.east) + (0.30cm,0)$);
@@ -251,6 +255,7 @@ D'altra parte, i modelli di perdita di percorso esaminano come la potenza del se
             \node at (1.6,-2) {(b)};
         \end{scope}
       
+        % Diagram (c)
         \begin{scope}[xshift=11.7cm]
             \node (i2) at (0,0) {};
             \node (j2) at (0,-1) {};
@@ -271,52 +276,49 @@ D'altra parte, i modelli di perdita di percorso esaminano come la potenza del se
       \label{fig:ToA_diagrams}
 \end{figure}
 
-Il ToA funziona attraverso due approcci principali: a una via (\textit{one way}) e a due vie (\textit{two way}). L'approccio unidirezionale calcola la distanza in base al tempo trascorso tra l'emissione e la ricezione del segnale (Figura ~\ref{fig:ToA_diagrams} (a)), richiedendo una sincronizzazione accurata dell'orologio tra Tx e Rx. L'approccio bidirezionale (Figura ~\ref{fig:ToA_diagrams} (b)), invece, prerito per la sua precisione, misura il tempo di andata e ritorno del segnale (\textit{round-trip time}). Utilizzando la geometria di base, si può dedurre la posizione del dispositivo rispetto agli AP, impiegando i valori ToF e RSSI.
+La misurazione del ToA si articola in due metodologie principali: unidirezionale e bidirezionale. Nel primo caso (Figura~\ref{fig:ToA_diagrams} (a)), la distanza viene calcolata basandosi sul tempo trascorso tra l'emissione e la ricezione del segnale, necessitando una sincronizzazione precisa degli orologi tra Tx e Rx. La modalità bidirezionale (Figura~\ref{fig:ToA_diagrams} (b)), preferita per la sua maggiore precisione, valuta il tempo impiegato dal segnale per compiere un percorso di andata e ritorno (\textit{round-trip time}). Applicando principi di geometria basilare, si può determinare la posizione di un dispositivo rispetto agli access point (AP), utilizzando i valori ToF e RSSI.
 
 Il calcolo del ToF e, di conseguenza, delle distanze si basa sulla differenza temporale tra il momento \( t_1 \) in cui il trasmettitore \( Tx_i \) invia un segnale e il momento \( t_2 \) in cui il ricevitore \( Rx_j \) lo riceve, con \( t_2 = t_1 + t_p \), dove \( t_p \) rappresenta il tempo di propagazione del segnale tra Tx e Rx. 
 
-\pagebreak
-
-\noindent Quindi la distanza tra $i$ e $j$ può essere calcolata utilizzando l'equazione: 
-
+Il calcolo della distanza tramite ToF si basa sulla differenza temporale tra l'istante \( t_1 \) in cui il trasmettitore \( Tx_i \) emette il segnale e l'istante \( t_2 \) in cui il ricevitore \( Rx_j \) lo capta, dove \( t_2 = t_1 + t_p \) e \( t_p \) indica il tempo di propagazione del segnale. La distanza può quindi essere calcolata con la formula:  
 \begin{equation}
-    d_{ij} = (t_2 - t_1) \cdot v
+    D_{ij} = (t_2 - t_1) \cdot v
 \end{equation}
 
-\noindent dove $t_1$ e $t_2$ indicano rispettivamente i tempi di invio e ricezione del segnale e $v$ la velocità del segnale. Per le misure bidirezionali, la formula viene perfezionata in:
+\noindent dove \(v\) rappresenta la velocità di propagazione del segnale. 
 
+Per le misurazioni bidirezionali, si affina il calcolo considerando anche i tempi di invio e ricezione del segnale di risposta, migliorando così l'accuratezza nella determinazione della posizione.
 \begin{equation}
-    d_{ij} = \frac{(t_4 - t_1) - (t_3 - t_2)}{2} \cdot v
+    D_{ij} = \frac{(t_4 - t_1) - (t_3 - t_2)}{2} \cdot v
 \end{equation}
 
 \noindent con $t_3$ e $t_4$ che segnano l'invio e la ricezione del segnale di risposta. Mentre il metodo unidirezionale consente al nodo ricevente di identificare la propria posizione, il metodo bidirezionale permette al nodo mittente di determinare la posizione del ricevente, rendendo necessaria una successiva comunicazione per la rivelazione della posizione.
 
-La precisione nella determinazione della distanza utilizzando il Time of Flight del segnale gioca un ruolo cruciale nell'assicurare misurazioni accurate. Questa precisione dipende significativamente dalla larghezza di banda del segnale e dalla frequenza con cui esso viene campionato. Una frequenza di campionamento ridotta può inficiare la risoluzione del ToF, in quanto il segnale può essere intercettato tra due campionamenti adiacenti, compromettendo l'accuratezza della stima della distanza. Per migliorare la risoluzione del ToF, è prassi ricorrere a tecniche di super-risoluzione in ambito frequenziale, che permettono di affinare le stime del ToF attraverso l'analisi della risposta in frequenza del segnale.
+La precisione nella stima della distanza attraverso il ToF è fondamentale per ottenere misurazioni accurate, dipendendo significativamente dalla larghezza di banda del segnale e dalla frequenza di campionamento. Frequenze di campionamento basse possono ridurre la risoluzione del ToF, poiché il segnale potrebbe essere rilevato tra due campionamenti successivi, influenzando negativamente l'accuratezza della stima. L'impiego di tecniche di super-risoluzione in ambito frequenziale può migliorare la precisione del ToF, affinando le stime attraverso l'analisi della risposta in frequenza del segnale.
 
-Negli IPS, frequentemente influenzati dal fenomeno del multipath — ovvero la propagazione del segnale attraverso percorsi multipli causata dalle riflessioni su svariate superfici — una banda più ampia può notevolmente perfezionare la risoluzione nella stima del ToF. Tuttavia, pur avendo a disposizione una considerevole larghezza di banda e l'utilizzo di metodi avanzati, gli ostacoli che bloccano un percorso diretto fra il trasmettitore e il ricevitore possono inserire errori notevoli nella localizzazione. Gli ostacoli possono allungare il tragitto dei segnali, aumentando il tempo di propagazione e di conseguenza il ToF.
+Negli IPS, particolarmente influenzati dal fenomeno del multipath — la ricezione di segnali che hanno percorso diverse vie a causa di riflessioni su varie superfici — una larga banda può migliorare sostanzialmente la risoluzione del ToF. Tuttavia, nonostante l'utilizzo di bande ampie e tecniche avanzate, gli ostacoli fisici possono introdurre errori significativi nella localizzazione, allungando i percorsi dei segnali e quindi il ToF.
 
-L'efficacia di questo sistema di misurazione si basa sulla precisa sincronizzazione e sulla precisa conoscenza dei tempi di trasmissione e ricezione del segnale, solitamente ottenuta mediante l'uso di segnali radiofrequenza (RF) o infrarossi (IR). Nonostante le sfide poste dalla complessità del sistema, dalle sue dimensioni, dal consumo energetico e dai costi aggiuntivi legati ai componenti RF/IR, questa tecnica consente di realizzare misurazioni di distanza estremamente precise, fondamentali per il posizionamento spaziale attraverso metodi come la trilaterazione.
+\noindent L'efficacia di questo sistema di misurazione si basa sulla precisa sincronizzazione e sulla precisa conoscenza dei tempi di trasmissione e ricezione del segnale, solitamente ottenuta mediante l'uso di segnali radiofrequenza (RF) o infrarossi (IR). Nonostante le sfide poste dalla complessità del sistema, dalle sue dimensioni, dal consumo energetico e dai costi aggiuntivi legati ai componenti RF/IR, questa tecnica consente di realizzare misurazioni di distanza estremamente precise, fondamentali per il posizionamento spaziale attraverso metodi come la trilaterazione.
 
 \subsubsection{Time Difference of Arrival (TDoA)}
 
 
 \paragraph{Singolo trasmettitore e ricevitore}
 
-Fondamentalmente, il TDoA con una singola configurazione di trasmettitore e ricevitore si basa sul principio di misurazione della differenza di tempo tra due segnali, che viaggiano a velocità diverse, per accertare la distanza tra il trasmettitore e il ricevitore. Questo concetto è particolarmente utile in ambienti in cui la linea visiva diretta è ostruita e i segnali possono propagarsi attraverso vari mezzi a velocità diverse.
+La tecnica TDoA, nel suo caso più semplice applicata a un sistema composto da un singolo trasmettitore e ricevitore, si basa sulla misurazione della differenza temporale tra due segnali che percorrono velocità diverse. Questo permette di determinare la distanza tra il trasmettitore e il ricevitore. Questo metodo è particolarmente efficace in contesti in cui la visibilità diretta è impedita e i segnali si propagano attraverso diversi mezzi a velocità variabili.
 
-Un tipico sistema TDoA può impiegare due tipi distinti di segnali, come un segnale radio seguito da un segnale acustico. Questi segnali possono essere inviati simultaneamente o sequenzialmente con un tempo di attesa predeterminato tra di loro. Ad esempio (Figura ~\ref{fig:ToA_diagrams} (c)), il segnale radio può essere emesso al tempo \( t_1 \) e ricevuto al tempo \( t_2 \), mentre il segnale acustico è inviato al tempo \( t_3 \) e ricevuto al tempo \( t_4 \). Conoscendo le velocità dei due segnali (\( v_1 \) per il segnale radio e \( v_2 \) per il segnale acustico), e il tempo di attesa \( t_{\text{wait}} = t_3 - t_1 \) se presente, il ricevitore può determinare la distanza dal trasmettitore utilizzando la formula~\cite{Dargie2010FundamentalsWS}:
+In un sistema TDoA di questo tipo, si utilizzano due tipi di segnali, ad esempio, un segnale radio seguito da un segnale acustico, inviati simultaneamente o in sequenza con un intervallo predefinito. In Figura~\ref{fig:ToA_diagrams} (c), il segnale radio è trasmesso al tempo \(t_1\) e ricevuto al tempo \(t_2\), mentre il segnale acustico è inviato al tempo \(t_3\) e ricevuto al tempo \(t_4\). Conoscendo le velocità di entrambi i segnali (\(v_1\) per il radio e \(v_2\) per l'acustico) e l'intervallo d'attesa \(t_{\text{wait}} = t_3 - t_1\), se esistente, il ricevitore può calcolare la distanza dal trasmettitore mediante la formula~\cite{Dargie2010FundamentalsWS}:
 \begin{equation}
-    d_{ij} = (v_1 - v_2) \cdot (t_4 - t_2 - t_{\text{wait}})
+    D_{ij} = (v_1 - v_2) \cdot (t_4 - t_2 - t_{\text{wait}})
 \end{equation}
 
 \paragraph{Più trasmettitori e un singolo ricevitore}
 
-Il passaggio a uno scenario con più trasmettitori introduce complessità ma migliora la precisione e la copertura. Questa configurazione sfrutta la differenza nei tempi di propagazione del segnale di diversi trasmettitori, misurati su un singolo ricevitore. Questo approccio diverge in modo significativo dal metodo del ToF, che si basa sul tempo assoluto impiegato da un segnale per viaggiare da un trasmettitore a un ricevitore. L'efficacia del TDoA è sostenuta dallo sfruttamento delle disparità temporali nell'arrivo del segnale da diverse fonti, traducendo queste differenze temporali in coordinate spaziali per individuare la posizione di un ricevitore con notevole precisione.
+Ampliando lo scenario a più trasmettitori, si introduce una maggiore complessità ma si ottiene un incremento in termini di precisione e copertura. Questa configurazione si avvale delle differenze nei tempi di propagazione dei segnali da diversi trasmettitori, registrati da un unico ricevitore, differenziandosi così dal metodo del Time of Flight (ToF), che si basa sul tempo di percorrenza assoluto di un segnale da un trasmettitore a un ricevitore. L'efficacia del TDoA deriva dall'uso delle discrepanze temporali nell'arrivo dei segnali da sorgenti multiple per tradurre queste differenze in coordinate spaziali, localizzando con precisione la posizione di un ricevitore.
 
-Il modello matematica del TDoA ruota attorno alla conversione delle differenze temporali in distanze fisiche. Per due trasmettitori \(i\) e \(j\), la misura TDoA \(T_{D(i,j)}\) — la differenza dei tempi di propagazione del segnale \(t_i - t_j\) — viene convertita in una distanza \(L_{D(i,j)}\) usando la formula \(L_{D(i,j)} = c \cdot T_{D(i,j)}\), dove \(c\) è la velocità della luce. Questa equazione costituisce la spina dorsale della logica operativa del TDoA, trasformando le misure temporali in distanze spaziali.
+La base matematica del TDoA trasforma le differenze temporali in distanze fisiche. Per due trasmettitori \(i\) e \(j\), la differenza temporale TDoA \(T_{D(i,j)}\), ossia la discrepanza nei tempi di propagazione \(t_i - t_j\), viene convertita in una distanza \(L_{D(i,j)}\) tramite la formula \(L_{D(i,j)} = c \cdot T_{D(i,j)}\), dove \(c\) rappresenta la velocità della luce.
 
-Approfondendo, la derivazione dell'equazione che localizza il ricevitore su un iperboloide comporta manipolazioni geometriche e algebriche. Partendo dalla premessa di base che la differenza di distanze \(L_{D(i, j)}\) dal ricevitore a due diversi trasmettitori \(i\) e \(j\) può essere espressa come:
-
+Approfondendo, la posizione del ricevitore viene localizzata su un iperboloide mediante equazioni che implicano manipolazioni geometriche e algebriche. La differenza di distanza \(L_{D(i, j)}\) tra il ricevitore e due trasmettitori \(i\) e \(j\) si esprime come~\cite{zafari2019survey}:
 \begin{equation}
     \begin{aligned}
         L_{D(i, j)} & =\sqrt{\left(X_i-x\right)^2+\left(Y_i-y\right)^2+\left(Z_i-z\right)^2} \\
@@ -324,12 +326,11 @@ Approfondendo, la derivazione dell'equazione che localizza il ricevitore su un i
     \end{aligned}
 \end{equation}
 
-\noindent Questa equazione pone effettivamente il ricevitore sulla superficie di un iperboloide rispetto ai due trasmettitori \(i\) e \(j\). In uno spazio tridimensionale, i punti equidistanti da una data differenza di distanza (determinata da \(L_{D(i, j)}\)) formano un iperboloide. Utilizzando più coppie di trasmettitori, è possibile calcolare l'intersezione di questi iperboloidi, che individua la posizione del ricevitore (\(x, y, z)\). La natura geometrica di questa relazione deriva dal fatto che ogni termine sotto la radice quadrata rappresenta la distanza euclidea tra il ricevitore e ogni trasmettitore, mentre la loro differenza si allinea alla geometria iperbolica dettata dalle misure del TDoA.
+\noindent Questa relazione posiziona il ricevitore su un iperboloide in relazione ai trasmettitori \(i\) e \(j\). In uno spazio tridimensionale, l'insieme dei punti equidistanti data una certa differenza di distanza (\(L_{D(i, j)}\)) forma un iperboloide. L'intersezione di iperboloidi derivanti da più coppie di trasmettitori permette di determinare la posizione esatta del ricevitore (\(x, y, z\)).
 
-Per determinare con precisione la posizione di un ricevitore utilizzando il TDoA, sono necessari segnali provenienti da almeno tre trasmettitori. Questa necessità nasce perché ciascuna coppia di trasmettitori fornisce un iperboloide di possibili posizioni per il ricevitore, in base alla differenza nei tempi di arrivo del segnale da tali trasmettitori. La posizione esatta del ricevitore può quindi essere individuata all’intersezione di tre o più di questi iperboloidi, dato che la posizione del ricevitore è l’unico punto in cui tutte queste superfici si incontrano nello spazio tridimensionale.
+Per una localizzazione accurata del ricevitore con il TDoA, è necessario ricevere segnali da almeno tre trasmettitori. Ogni coppia di trasmettitori fornisce un iperboloide che rappresenta le possibili posizioni del ricevitore basate sulla differenza dei tempi di arrivo dei segnali. La posizione precisa del ricevitore è identificabile all'intersezione di tre o più di questi iperboloidi, essendo il punto unico in cui queste superfici convergono nello spazio tridimensionale.
 
-Risolvere la posizione del ricevitore implica avere a che fare con un sistema di equazioni iperboliche derivate da questi iperboloidi. A causa della natura non lineare di queste equazioni, le soluzioni dirette possono essere complesse. Tuttavia, il sistema può essere risolto efficacemente utilizzando metodi numerici che non richiedono di approfondire la complessità delle equazioni. Due approcci comuni per risolvere questo sistema sono la regressione lineare e la linearizzazione delle equazioni tramite espansione in serie di Taylor.
-
+Affrontare la localizzazione del ricevitore comporta la risoluzione di un sistema di equazioni iperboliche derivanti da queste superfici iperboliche. Le equazioni, per loro natura non lineare, presentano soluzioni complesse. Nonostante ciò, è possibile trovare soluzioni efficaci attraverso metodi numerici. Esistono due metodi prevalenti per risolvere questo sistema includono la regressione lineare e la linearizzazione delle equazioni mediante l'espansione in serie di Taylor, facilitando così il calcolo delle posizioni senza necessità di soluzioni analitiche dirette.
 
 \subsection{Metriche di Prestazione e Ottimizzazione}
 \hspace{\parindent}Le prestazioni dei sistemi di localizzazione indoor sono spesso valutate in base all'accuratezza, alla precisione e alla robustezza. L'accuratezza si riferisce a quanto la posizione stimata sia vicina alla posizione reale, mentre la precisione indica la consistenza delle misurazioni di localizzazione ripetute nelle stesse condizioni. La robustezza misura la capacità del sistema di mantenere le prestazioni nonostante i cambiamenti ambientali o le interferenze del segnale.
