@@ -229,51 +229,52 @@ D'altra parte, i modelli di perdita di percorso esaminano come la potenza del se
 
 \begin{figure}[H]
     \centering
-    \begin{adjustbox}{width=\linewidth,keepaspectratio}
-    \begin{tikzpicture}[>=latex]
-        % Diagram (a)
-        \node (i1) at (0,0) {$\text{Tx}$};
-        \node (j1) at (0,-1) {$\text{Rx}$};
-        \draw[->] (i1.east) -- ++(3,0) node[near start, above] {$t_1$};
-        \draw[->] (j1.east) -- ++(3,0) node[midway, below] {$t_2$};
-        \draw[->] (i1) (1.5,0) -- ++(j1.east);
-        \node at (2.25,-2) {(a)};
-      
-        % Diagram (b)
-        \begin{scope}[xshift=6cm]
+    % Diagram (a)
+    \begin{minipage}{.32\linewidth}
+        \centering
+        \begin{tikzpicture}[>=latex]
+            \node (i1) at (0,0) {$\text{Tx}$};
+            \node (j1) at (0,-1) {$\text{Rx}$};
+            \draw[->] (i1.east) -- ++(3,0) node[near start, above] {$t_1$};
+            \draw[->] (j1.east) -- ++(3,0) node[midway, below] {$t_2$};
+            \draw[->] (i1) (1.5,0) -- ++(j1.east);
+            \node at (1.9,-2) {(a)};
+        \end{tikzpicture}
+    \end{minipage}%
+    \hfill
+    % Diagram (b)
+    \begin{minipage}{.32\linewidth}
+        \centering
+        \begin{tikzpicture}[>=latex]
             \node (i2) at (0,0) {};
             \node (j2) at (0,-1) {};
             \draw[->] (i2.east) -- ++(3,0) node[pos=0.27, above] {$t_1$};
             \draw[->] (i2.east) -- ++(3,0) node[pos=0.73, above] {$t_4$};
             \draw[->] (j2.east) -- ++(3,0) node[pos=0.63, below] {$t_3$};
             \draw[->] (j2.east) -- ++(3,0) node[pos=0.40, below] {$t_2$};
-    
-    
             \draw[->] (i2.east) (1,0) -- ++($(j2.east) + (0.30cm,0)$);
             \draw[->, transform canvas={xshift=2cm}] ($(j2.east) - (0.30cm,0)$)  -- ($(i2.east) + (0.15cm,0)$);
-          
             \node at (1.6,-2) {(b)};
-        \end{scope}
-      
-        % Diagram (c)
-        \begin{scope}[xshift=11.7cm]
+        \end{tikzpicture}
+    \end{minipage}%
+    \hfill
+    % Diagram (c)
+    \begin{minipage}{.32\linewidth}
+        \centering
+        \begin{tikzpicture}[>=latex]
             \node (i2) at (0,0) {};
             \node (j2) at (0,-1) {};
             \draw[->] (i2.east) -- ++(3,0) node[pos=0.14, above] {$t_1$};
             \draw[->] (i2.east) -- ++(3,0) node[pos=0.35, above] {$t_3$};
             \draw[->] (j2.east) -- ++(3,0) node[pos=0.78, below] {$t_4$};
             \draw[->] (j2.east) -- ++(3,0) node[pos=0.35, below] {$t_2$};
-    
-    
             \draw[->, transform canvas={xshift=0.5cm}] (i2.east) -- ++($(j2.east) + (0.30cm,0)$) node[midway, left] {$v_1$};
             \draw[->, transform canvas={xshift=1cm}] (i2.east) -- ++($(j2.east) + (1.15cm,0)$) node[midway, right] {$v_2$};
-          
             \node at (1.6,-2) {(c)};
-        \end{scope}
-      \end{tikzpicture}   
-      \end{adjustbox}
-      \caption{Confronto tra diversi schemi di ranging (ToA unidirezionale, ToA bidirezionale e TDoA).}
-      \label{fig:ToA_diagrams}
+        \end{tikzpicture}
+    \end{minipage}
+    \caption{Confronto tra diversi schemi di ranging (ToA unidirezionale, ToA bidirezionale e TDoA).}
+    \label{fig:ToA_diagrams}
 \end{figure}
 
 La misurazione del ToA si articola in due metodologie principali: unidirezionale e bidirezionale. Nel primo caso (Figura~\ref{fig:ToA_diagrams} (a)), la distanza viene calcolata basandosi sul tempo trascorso tra l'emissione e la ricezione del segnale, necessitando una sincronizzazione precisa degli orologi tra Tx e Rx. La modalità bidirezionale (Figura~\ref{fig:ToA_diagrams} (b)), preferita per la sua maggiore precisione, valuta il tempo impiegato dal segnale per compiere un percorso di andata e ritorno (\textit{round-trip time}). Applicando principi di geometria basilare, si può determinare la posizione di un dispositivo rispetto agli access point (AP), utilizzando i valori ToF e RSSI.
