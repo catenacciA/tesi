@@ -11,7 +11,7 @@ rm -rf "${outputDir:?}"/*
 mkdir -p $outputDir
 
 # Compile the document
-latexmk -f -pdf -outdir=$outputDir -interaction=nonstopmode tesi.tex
+latexmk -f -pdf -outdir=$outputDir -interaction=nonstopmode main.tex
 
 echo "Compilation completed. Check the '$outputDir' directory for the output."
 

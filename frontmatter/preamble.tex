@@ -20,6 +20,7 @@
 % To include images and enable more flexible figure placement
 \usepackage{graphicx}
 \usepackage{float} % For more precise figure placement with the [H] specifier
+\usepackage{adjustbox} % For more flexible figure sizes
 
 % Subfigures and captions
 \usepackage{caption}
@@ -48,12 +49,26 @@
 % For unit and number formatting, especially in scientific documents
 \usepackage{siunitx}
 
+\usepackage{caption}
+
 % Filler text for draft purposes (can be removed in the final document)
 \usepackage{lipsum}
 
 % For complex diagrams and schematics
 \usepackage{tikz}
-\usetikzlibrary{calc,intersections}
+\usetikzlibrary{positioning,calc,intersections,arrows.meta,decorations.markings}
+
+\tikzset{
+  Node/.style={circle,fill=gray!20,draw,minimum size=3mm},
+  V/.style={diamond,fill=gray!20,draw,minimum size=3mm},
+}
+
+\widowpenalty=10000
+\clubpenalty=10000
+
+\usepackage{textcomp, gensymb}
+
+\usepackage{siunitx} 
 
 % For text wrapping around figures
 \usepackage{wrapfig}
@@ -95,5 +110,8 @@
   \newpage
   \if@twocolumn\hbox{}\newpage\fi\fi\fi}
 \makeatother
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
 
 \raggedbottom % Prevents stretching of vertical spaces

@@ -114,29 +114,30 @@ Data la misurazione RSSI, la distanza stimata $(d)$ al trasmettitore può essere
 
 Determinare il valore di $X_{\sigma}$ rappresenta una sfida cruciale nella realizzazione di modelli per la propagazione dei segnali in ambienti interni, in particolare quando si utilizzano sistemi di posizionamento basati su Wi-Fi. Infatti, gli oggetti possono sperimentare variazioni considerevoli del segnale RSSI emesso da un Access Point (AP) quando entrano in un ambiente o svoltano un angolo, a causa dell'ombreggiatura provocata da porte e pareti. Un valore di $X_{\sigma}$ predefinito non è adeguato per soddisfare le necessità specifiche, portando così a significativi errori nella stima della posizione. Questo problema sottolinea l'importanza di sviluppare un approccio più flessibile e accurato per calcolare $X_{\sigma}$ al fine di migliorare la precisione del posizionamento.
 
-\subsection{Trilaterazione}
+\subsubsection{Trilaterazione}
 \hspace{\parindent}La trilaterazione è una tecnica geometrica utilizzata per determinare la posizione sconosciuta di un punto misurando la sua distanza da almeno tre punti noti. Nel contesto della localizzazione indoor, questi punti noti sono tipicamente access point wireless o beacon con posizioni note.
 
-\noindent Affinché la trilaterazione funzioni, si parte dalla formula di base della distanza tra due punti in un piano, data da:
+\noindent Affinché la trilaterazione funzioni, si parte dalla formula di base della distanza tra due punti in uno spazio tridimenzionale, data da:
 
 \begin{equation}
-    d = \sqrt{(x-x_i)^2 + (y-y_i)^2}
+    d = \sqrt{(x-x_i)^2 + (y-y_i)^2 + (z-z_i)^2}
 \end{equation}
 
-\noindent dove $(x,y)$ rappresenta le coordinate della posizione sconosciuta, e $(x_i,y_i)$ sono le coordinate dell'$i$-esimo punto noto, con $d$ che rappresenta la distanza tra questi punti stimata dalle misurazioni RSSI.
+\noindent dove $(x,y,z)$ rappresenta le coordinate della posizione sconosciuta, e $(x_i,y_i, z_i)$ sono le coordinate dell'$i$-esimo punto noto, con $d$ che rappresenta la distanza tra questi punti stimata dalle misurazioni RSSI.
 
 Dati almeno tre di tali distanze da punti noti, possiamo impostare un sistema di equazioni:
 
 \begin{equation}
     \begin{cases}
-        \sqrt{(x-x_1)^2 + (y-y_1)^2} &= d_1 \\
-        \sqrt{(x-x_2)^2 + (y-y_2)^2} &= d_2 \\
-        \sqrt{(x-x_3)^2 + (y-y_3)^2} &= d_3 \\
+        \sqrt{(x-x_1)^2 + (y-y_1)^2 + (z-z_1)^2} &= d_1 \\
+        \sqrt{(x-x_2)^2 + (y-y_2)^2 + (z-z_2)^2} &= d_2 \\
+        \sqrt{(x-x_3)^2 + (y-y_3)^2 + (z-z_3)^2} &= d_3 \\
     \end{cases}
 \end{equation}
 
 \begin{wrapfigure}{r}{0.5\textwidth}
     \centering
+    \begin{adjustbox}{max size={\textwidth}{\textheight}}
     \begin{tikzpicture}[scale=0.5]
         \node (A) at (0,0) {};
         \node (B) at (4,0) {};
@@ -157,22 +158,22 @@ Dati almeno tre di tali distanze da punti noti, possiamo impostare un sistema di
         \draw[dashed] (B) -- node[below] {$d_B$} (P);
         \draw[dashed] (C) -- node[above right]  {$d_C$} (P);
     \end{tikzpicture}
-    \caption{Esempio di trilaterazione con tre punti noti $A$, $B$, $C$ e un punto sconosciuto $P$.}
+    \end{adjustbox}
+    \caption{Esempio di trilaterazione 2D con tre punti noti $A$, $B$, $C$ e un punto sconosciuto $P$.}
     \label{fig:trilaterazione}
 \end{wrapfigure}
 
+Risolvendo il sistema di equazioni, possiamo identificare le coordinate $(x,y,z)$ del target nell'ambiente. Tuttavia, imprecisioni di misurazione e variabili ambientali che alterano il RSSI richiedono l'uso di metodi di ottimizzazione, come la stima a minimi quadrati, per ottenere la migliore approssimazione della posizione che riduca al minimo l'errore tra le distanze misurate e quelle calcolate.
 
-Risolvendo il sistema di equazioni, possiamo identificare le coordinate $(x,y)$ del target nell'ambiente. Tuttavia, imprecisioni di misurazione e variabili ambientali che alterano il RSSI richiedono l'uso di metodi di ottimizzazione, come la stima a minimi quadrati, per ottenere la migliore approssimazione della posizione che riduca al minimo l'errore tra le distanze misurate e quelle calcolate.
-
-\subsection{Fingerprinting}
+\subsubsection{Fingerprinting}
 \hspace{\parindent}Un metodo alternativo per stimare la distanza senza dover convertire direttamente la potenza del segnale in metri è il confronto dei segnali RSSI con una mappa digitale specifica. Questa tecnica, nota come mappatura spaziale, si divide in due momenti distinti: l'analisi preliminare e l'individuazione in tempo reale.
 
 Durante l'analisi preliminare, si procede con l'esplorazione dell'area d'interesse per raccogliere e catalogare i segnali RSSI ("impronte digitali") in vari punti predefiniti, creando così un archivio dati. La fase successiva, ovvero l'individuazione in tempo reale, avviene quando le rilevazioni RSSI effettuate su un dispositivo portatile vengono accostate a quelle presenti nell'archivio, al fine di localizzare l'utente. È possibile che il set di AP, disponibili durante questa fase, differisca da quello originariamente mappato a causa dell'eventuale rimozione o inserimento di nuovi AP o per variazioni nella potenza di trasmissione. Di conseguenza, è fondamentale un meccanismo di selezione degli AP per l'aggiornamento in tempo reale. La posizione viene determinata confrontando i segnali attuali con quelli memorizzati, identificando così la localizzazione più probabile dell'utente. Un ostacolo nell'uso della mappatura spaziale è dato dalla possibile discrepanza tra i segnali RSSI precedentemente archiviati e quelli attuali, dovuta a modifiche ambientali o nelle configurazioni degli AP. L'aggiunta o rimozione di AP richiede un aggiornamento dell'archivio dati. Inoltre, le rilevazioni RSSI possono variare in base al dispositivo utilizzato. Nonostante queste difficoltà, il metodo di mappatura spaziale si è affermato per la sua affidabilità nella localizzazione basata su reti WLAN.
 
 La tecnica di mappatura può seguire un approccio deterministico o probabilistico. Con il primo, si identifica la posizione che meglio corrisponde ai segnali RSSI rilevati confrontandoli con l'archivio. Nel metodo probabilistico, invece, i segnali sono interpretati come variabili di una distribuzione di probabilità e la localizzazione dell'utente viene calcolata attraverso la probabilità che deriva dal confronto tra le rilevazioni in tempo reale e i dati memorizzati.
 
-\subsubsection{Mappa Radio}
-\hspace{\parindent}La creazione di una mappa dei segnali radio, fondamentale nella fase preliminare di apprendimento, consiste nell'annotazione dei livelli di segnale RSSI raccolti in posizioni definite, note come siti di calibrazione. Questo metodo permette di registrare le dinamiche di diffusione del segnale in ambienti chiusi, superando le sfide poste dalla modellazione dei percorsi di trasmissione del segnale, notoriamente complessi. Tuttavia, la fase di raccolta dati per la costituzione di questa mappa è notevolmente dispendiosa in termini di tempo e risorse. La strutturazione della mappa prevede la suddivisione dell'area d'interesse in una griglia basata su una mappa dettagliata del sito. All'interno di ogni segmento della griglia, si effettuano misurazioni dei segnali emessi da vari AP, raccolte in specifici siti di calibrazione per un periodo definito e successivamente inserite nel database della mappa. Un elemento della mappa può essere descritto dalla seguente formula:
+\paragraph{Mappa Radio}
+La creazione di una mappa dei segnali radio, fondamentale nella fase preliminare di apprendimento, consiste nell'annotazione dei livelli di segnale RSSI raccolti in posizioni definite, note come siti di calibrazione. Questo metodo permette di registrare le dinamiche di diffusione del segnale in ambienti chiusi, superando le sfide poste dalla modellazione dei percorsi di trasmissione del segnale, notoriamente complessi. Tuttavia, la fase di raccolta dati per la costituzione di questa mappa è notevolmente dispendiosa in termini di tempo e risorse. La strutturazione della mappa prevede la suddivisione dell'area d'interesse in una griglia basata su una mappa dettagliata del sito. All'interno di ogni segmento della griglia, si effettuano misurazioni dei segnali emessi da vari AP, raccolte in specifici siti di calibrazione per un periodo definito e successivamente inserite nel database della mappa. Un elemento della mappa può essere descritto dalla seguente formula:
 
 \begin{equation}
     M_i = \left(S_i, \{r_{ij} \mid j \in T_i\}, \phi_i\right), \quad i = 1, \ldots, M
@@ -184,8 +185,8 @@ Fattori quali l'orientamento del dispositivo di ricezione durante le misure, la 
 
 Con il passare del tempo, l'affidabilità della mappa dei segnali tende a diminuire a causa delle modifiche nella potenza di trasmissione degli AP e di altri cambiamenti strutturali, come lo spostamento di mobili o pareti. Di conseguenza, è necessario effettuare misurazioni aggiuntive a intervalli regolari per assicurare l'aggiornamento e la precisione della mappa.
 
-\subsubsection{Algoritmo di Fingerprinting}
-\hspace{\parindent}La maggior parte degli approcci di fingerprinting sfruttano la minimizzazione della distanza euclidea nell'ambito dello spazio di misurazione dei segnali di forza del segnale ricevuto, prendendo in considerazione le letture da tutti gli Access Point rilevati.~\cite{Seco2009} In tale contesto, la posizione stimata dell'utente viene identificata con il punto di calibrazione che mostra la minore distanza in termini di discrepanza tra i valori RSSI misurati e quelli registrati durante la fase di mappatura preliminare, espresso come segue:
+\paragraph{Algoritmo di Fingerprinting}
+La maggior parte degli approcci di fingerprinting sfruttano la minimizzazione della distanza euclidea nell'ambito dello spazio di misurazione dei segnali di forza del segnale ricevuto, prendendo in considerazione le letture da tutti gli Access Point rilevati.~\cite{Seco2009} In tale contesto, la posizione stimata dell'utente viene identificata con il punto di calibrazione che mostra la minore distanza in termini di discrepanza tra i valori RSSI misurati e quelli registrati durante la fase di mappatura preliminare, espresso come segue:
 
 \begin{equation}
     \hat{x} = \arg\min_{x_j} \sum_{i=1}^{n} (r_i - \rho_i(x_j))^2
@@ -193,9 +194,9 @@ Con il passare del tempo, l'affidabilità della mappa dei segnali tende a diminu
 
 \noindent Qui, $r_i$ rappresenta il RSSI rilevato dall'$i$-esimo AP durante il processo di localizzazione in tempo reale, mentre $\rho_i(x_j)$ indica il valore di fingerprint RSSI per l'$i$-esimo AP acquisito nel punto di calibrazione $j$-esimo durante la fase di ricognizione.
 
-Tradizionalmente, nella determinazione della posizione, ogni fingerprint contribuisce in modo equivalente alla stima finale. Un approccio più raffinato consiste nell'attribuire un peso differenziato ai vari fingerprint attraverso ciò che è noto come il metodo KNN (K-nearest neighbors)~\cite{Honkavirta2009}. La logica sottostante prevede l'assegnazione di una maggiore incidenza ai fingerprint più vicini in termini di distanza nel dominio RSSI.
+Tradizionalmente, nella determinazione della posizione, ogni fingerprint contribuisce in modo equivalente alla stima finale. Un approccio avanzato utilizza il metodo KNN (K-nearest neighbors)~\cite{Honkavirta2009} per attribuire pesi differenziati ai fingerprint basandosi sulla distanza nel dominio RSSI, assegnando maggiore incidenza ai più vicini.
 
-Le tecniche basate sui vicini più prossimi si distinguono per essere non parametriche, vantando semplicità di implementazione, resilienza agli errori e un grado di precisione generalmente elevato.
+Le tecniche KNN, non parametriche, si distinguono per semplicità, resilienza agli errori e alta precisione.
 
 \subsubsection{Fingerprinting Probabilistico}
 \hspace{\parindent}Si basa sulla stima delle distribuzioni di probabilità dei valori RSSI per identificare la posizione più probabile dell'oggetto, utilizzando la formula~\cite{Seco2009}:
@@ -216,8 +217,121 @@ I modelli di area di copertura (CA) e i modelli di perdita di percorso rappresen
 
 D'altra parte, i modelli di perdita di percorso esaminano come la potenza del segnale RSSI decresce con l'aumentare della distanza dall'AP, impiegando modelli matematici per questa relazione. La calibrazione precisa di questi modelli, basata sui dati di fingerprinting, è essenziale per una stima accurata della posizione, riducendo la necessità di trasferire volumi significativi di dati e semplificando così il processo di localizzazione.
 
+\subsection{Localizzazione basata sul tempo}
+
+\subsubsection{Time of Flight (ToF)}
+
+\hspace{\parindent}La metodologia Time of Flight (ToF), anche conosciuto come Time of Arrival (ToA), sfrutta il tempo di propagazione del segnale per calcolare la distanza tra il trasmettitore (Tx) e il ricevitore (Rx). Questa tecnica misura il tempo di percorrenza del segnale da Tx a Rx, sfruttando la velocità nota del segnale. Ad esempio, le onde sonore a $20 \degree \text{C}$ viaggiano a 343 $\displaystyle{m/s}$ e necessitano di circa 30 $ms$ per coprire 10 $m$, mentre i segnali radio, che viaggiano alla velocità della luce ($\sim$ \num{300000} $\displaystyle{km/s}$), richiedono circa 30 nanosecondi per la stessa distanza. Ciò evidenzia la necessità di meccanismi di temporizzazione precisi nelle misurazioni via radio, complicando e aggiungendo costi alle reti di sensori.
+
+\begin{figure}[H]
+    \centering
+    \begin{adjustbox}{width=\linewidth,keepaspectratio}
+    \begin{tikzpicture}[>=latex]
+        % Diagram (a)
+        \node (i1) at (0,0) {Nodo $i$};
+        \node (j1) at (0,-1) {Nodo $j$};
+        \draw[->] (i1.east) -- ++(3,0) node[near start, above] {$t_1$};
+        \draw[->] (j1.east) -- ++(3,0) node[midway, below] {$t_2$};
+        \draw[->] (i1) (1.5,0) -- ++(j1.east);
+        \node at (2.25,-2) {(a)};
+      
+        % Diagram (b)
+        \begin{scope}[xshift=6cm]
+            \node (i2) at (0,0) {};
+            \node (j2) at (0,-1) {};
+            \draw[->] (i2.east) -- ++(3,0) node[pos=0.27, above] {$t_1$};
+            \draw[->] (i2.east) -- ++(3,0) node[pos=0.73, above] {$t_4$};
+            \draw[->] (j2.east) -- ++(3,0) node[pos=0.63, below] {$t_2$};
+            \draw[->] (j2.east) -- ++(3,0) node[pos=0.40, below] {$t_3$};
+    
+    
+            \draw[->] (i2.east) (1,0) -- ++($(j2.east) + (0.30cm,0)$);
+            \draw[->, transform canvas={xshift=2cm}] ($(j2.east) - (0.30cm,0)$)  -- ($(i2.east) + (0.15cm,0)$);
+          
+            \node at (1.6,-2) {(b)};
+        \end{scope}
+      
+        \begin{scope}[xshift=11.7cm]
+            \node (i2) at (0,0) {};
+            \node (j2) at (0,-1) {};
+            \draw[->] (i2.east) -- ++(3,0) node[pos=0.14, above] {$t_1$};
+            \draw[->] (i2.east) -- ++(3,0) node[pos=0.35, above] {$t_3$};
+            \draw[->] (j2.east) -- ++(3,0) node[pos=0.78, below] {$t_4$};
+            \draw[->] (j2.east) -- ++(3,0) node[pos=0.35, below] {$t_2$};
+    
+    
+            \draw[->, transform canvas={xshift=0.5cm}] (i2.east) -- ++($(j2.east) + (0.30cm,0)$) node[midway, left] {$v_1$};
+            \draw[->, transform canvas={xshift=1cm}] (i2.east) -- ++($(j2.east) + (1.15cm,0)$) node[midway, right] {$v_2$};
+          
+            \node at (1.6,-2) {(c)};
+        \end{scope}
+      \end{tikzpicture}   
+      \end{adjustbox}
+      \caption{Confronto tra diversi schemi di ranging (ToA unidirezionale, ToA bidirezionale e TDoA).}
+      \label{fig:ToA_diagrams}
+\end{figure}
+
+Il ToA funziona attraverso due approcci principali: a una via (\textit{one way}) e a due vie (\textit{two way}). L'approccio unidirezionale calcola la distanza in base al tempo trascorso tra l'emissione e la ricezione del segnale (Figura ~\ref{fig:ToA_diagrams} (a)), richiedendo una sincronizzazione accurata dell'orologio tra Tx e Rx. L'approccio bidirezionale (Figura ~\ref{fig:ToA_diagrams} (b)), invece, prerito per la sua precisione, misura il tempo di andata e ritorno del segnale (\textit{round-trip time}). Utilizzando la geometria di base, si può dedurre la posizione del dispositivo rispetto agli AP, impiegando i valori ToF e RSSI.
+
+Il calcolo del ToF e, di conseguenza, delle distanze si basa sulla differenza temporale tra il momento \( t_1 \) in cui il trasmettitore \( Tx_i \) invia un segnale e il momento \( t_2 \) in cui il ricevitore \( Rx_j \) lo riceve, con \( t_2 = t_1 + t_p \), dove \( t_p \) rappresenta il tempo di propagazione del segnale tra Tx e Rx. 
+
+\pagebreak
+
+\noindent Quindi la distanza tra $i$ e $j$ può essere calcolata utilizzando l'equazione: 
+
+\begin{equation}
+    d_{ij} = (t_2 - t_1) \cdot v
+\end{equation}
+
+\noindent dove $t_1$ e $t_2$ indicano rispettivamente i tempi di invio e ricezione del segnale e $v$ la velocità del segnale. Per le misure bidirezionali, la formula viene perfezionata in:
+
+\begin{equation}
+    d_{ij} = \frac{(t_4 - t_1) - (t_3 - t_2)}{2} \cdot v
+\end{equation}
+
+\noindent con $t_3$ e $t_4$ che segnano l'invio e la ricezione del segnale di risposta. Mentre il metodo unidirezionale consente al nodo ricevente di identificare la propria posizione, il metodo bidirezionale permette al nodo mittente di determinare la posizione del ricevente, rendendo necessaria una successiva comunicazione per la rivelazione della posizione.
+
+La precisione nella determinazione della distanza utilizzando il Time of Flight del segnale gioca un ruolo cruciale nell'assicurare misurazioni accurate. Questa precisione dipende significativamente dalla larghezza di banda del segnale e dalla frequenza con cui esso viene campionato. Una frequenza di campionamento ridotta può inficiare la risoluzione del ToF, in quanto il segnale può essere intercettato tra due campionamenti adiacenti, compromettendo l'accuratezza della stima della distanza. Per migliorare la risoluzione del ToF, è prassi ricorrere a tecniche di super-risoluzione in ambito frequenziale, che permettono di affinare le stime del ToF attraverso l'analisi della risposta in frequenza del segnale.
+
+Negli IPS, frequentemente influenzati dal fenomeno del multipath — ovvero la propagazione del segnale attraverso percorsi multipli causata dalle riflessioni su svariate superfici — una banda più ampia può notevolmente perfezionare la risoluzione nella stima del ToF. Tuttavia, pur avendo a disposizione una considerevole larghezza di banda e l'utilizzo di metodi avanzati, gli ostacoli che bloccano un percorso diretto fra il trasmettitore e il ricevitore possono inserire errori notevoli nella localizzazione. Gli ostacoli possono allungare il tragitto dei segnali, aumentando il tempo di propagazione e di conseguenza il ToF.
+
+L'efficacia di questo sistema di misurazione si basa sulla precisa sincronizzazione e sulla precisa conoscenza dei tempi di trasmissione e ricezione del segnale, solitamente ottenuta mediante l'uso di segnali radiofrequenza (RF) o infrarossi (IR). Nonostante le sfide poste dalla complessità del sistema, dalle sue dimensioni, dal consumo energetico e dai costi aggiuntivi legati ai componenti RF/IR, questa tecnica consente di realizzare misurazioni di distanza estremamente precise, fondamentali per il posizionamento spaziale attraverso metodi come la trilaterazione.
+
+\subsubsection{Time Difference of Arrival (TDoA)}
+
+
+\paragraph{Singolo trasmettitore e ricevitore}
+
+Fondamentalmente, il TDoA con una singola configurazione di trasmettitore e ricevitore si basa sul principio di misurazione della differenza di tempo tra due segnali, che viaggiano a velocità diverse, per accertare la distanza tra il trasmettitore e il ricevitore. Questo concetto è particolarmente utile in ambienti in cui la linea visiva diretta è ostruita e i segnali possono propagarsi attraverso vari mezzi a velocità diverse.
+
+Un tipico sistema TDoA può impiegare due tipi distinti di segnali, come un segnale radio seguito da un segnale acustico. Questi segnali possono essere inviati simultaneamente o sequenzialmente con un tempo di attesa predeterminato tra di loro. Ad esempio (Figura ~\ref{fig:ToA_diagrams} (c)), il segnale radio può essere emesso al tempo \( t_1 \) e ricevuto al tempo \( t_2 \), mentre il segnale acustico è inviato al tempo \( t_3 \) e ricevuto al tempo \( t_4 \). Conoscendo le velocità dei due segnali (\( v_1 \) per il segnale radio e \( v_2 \) per il segnale acustico), e il tempo di attesa \( t_{\text{wait}} = t_3 - t_1 \) se presente, il ricevitore può determinare la distanza dal trasmettitore utilizzando la formula~\cite{Dargie2010FundamentalsWS}:
+\begin{equation}
+    d_{ij} = (v_1 - v_2) \cdot (t_4 - t_2 - t_{\text{wait}})
+\end{equation}
+
+\paragraph{Più trasmettitori e un singolo ricevitore}
+
+Il passaggio a uno scenario con più trasmettitori introduce complessità ma migliora la precisione e la copertura. Questa configurazione sfrutta la differenza nei tempi di propagazione del segnale di diversi trasmettitori, misurati su un singolo ricevitore. Questo approccio diverge in modo significativo dal metodo del ToF, che si basa sul tempo assoluto impiegato da un segnale per viaggiare da un trasmettitore a un ricevitore. L'efficacia del TDoA è sostenuta dallo sfruttamento delle disparità temporali nell'arrivo del segnale da diverse fonti, traducendo queste differenze temporali in coordinate spaziali per individuare la posizione di un ricevitore con notevole precisione.
+
+Il modello matematica del TDoA ruota attorno alla conversione delle differenze temporali in distanze fisiche. Per due trasmettitori \(i\) e \(j\), la misura TDoA \(T_{D(i,j)}\) — la differenza dei tempi di propagazione del segnale \(t_i - t_j\) — viene convertita in una distanza \(L_{D(i,j)}\) usando la formula \(L_{D(i,j)} = c \cdot T_{D(i,j)}\), dove \(c\) è la velocità della luce. Questa equazione costituisce la spina dorsale della logica operativa del TDoA, trasformando le misure temporali in distanze spaziali.
+
+Approfondendo, la derivazione dell'equazione che localizza il ricevitore su un iperboloide comporta manipolazioni geometriche e algebriche. Partendo dalla premessa di base che la differenza di distanze \(L_{D(i, j)}\) dal ricevitore a due diversi trasmettitori \(i\) e \(j\) può essere espressa come:
+
+\begin{equation}
+    \begin{aligned}
+        L_{D(i, j)} & =\sqrt{\left(X_i-x\right)^2+\left(Y_i-y\right)^2+\left(Z_i-z\right)^2} \\
+        & -\sqrt{\left(X_j-x\right)^2+\left(Y_j-y\right)^2+\left(Z_j-z\right)^2}
+    \end{aligned}
+\end{equation}
+
+\noindent Questa equazione pone effettivamente il ricevitore sulla superficie di un iperboloide rispetto ai due trasmettitori \(i\) e \(j\). In uno spazio tridimensionale, i punti equidistanti da una data differenza di distanza (determinata da \(L_{D(i, j)}\)) formano un iperboloide. Utilizzando più coppie di trasmettitori, è possibile calcolare l'intersezione di questi iperboloidi, che individua la posizione del ricevitore (\(x, y, z)\). La natura geometrica di questa relazione deriva dal fatto che ogni termine sotto la radice quadrata rappresenta la distanza euclidea tra il ricevitore e ogni trasmettitore, mentre la loro differenza si allinea alla geometria iperbolica dettata dalle misure del TDoA.
+
+Per determinare con precisione la posizione di un ricevitore utilizzando il TDoA, sono necessari segnali provenienti da almeno tre trasmettitori. Questa necessità nasce perché ciascuna coppia di trasmettitori fornisce un iperboloide di possibili posizioni per il ricevitore, in base alla differenza nei tempi di arrivo del segnale da tali trasmettitori. La posizione esatta del ricevitore può quindi essere individuata all’intersezione di tre o più di questi iperboloidi, dato che la posizione del ricevitore è l’unico punto in cui tutte queste superfici si incontrano nello spazio tridimensionale.
+
+Risolvere la posizione del ricevitore implica avere a che fare con un sistema di equazioni iperboliche derivate da questi iperboloidi. A causa della natura non lineare di queste equazioni, le soluzioni dirette possono essere complesse. Tuttavia, il sistema può essere risolto efficacemente utilizzando metodi numerici che non richiedono di approfondire la complessità delle equazioni. Due approcci comuni per risolvere questo sistema sono la regressione lineare e la linearizzazione delle equazioni tramite espansione in serie di Taylor.
+
+
 \subsection{Metriche di Prestazione e Ottimizzazione}
 \hspace{\parindent}Le prestazioni dei sistemi di localizzazione indoor sono spesso valutate in base all'accuratezza, alla precisione e alla robustezza. L'accuratezza si riferisce a quanto la posizione stimata sia vicina alla posizione reale, mentre la precisione indica la consistenza delle misurazioni di localizzazione ripetute nelle stesse condizioni. La robustezza misura la capacità del sistema di mantenere le prestazioni nonostante i cambiamenti ambientali o le interferenze del segnale.
 
 Per ottimizzare queste metriche, vengono applicate tecniche avanzate quali algoritmi di apprendimento automatico, tecniche di filtraggio (ad es., filtri di Kalman) e metodi di elaborazione del segnale. Questi approcci possono migliorare la stima delle distanze dalle misurazioni RSSI, affinare il processo di trilaterazione e, in definitiva, potenziare le prestazioni complessive del sistema di localizzazione.  Inoltre, la raccolta di dati estensiva e la calibrazione accurata dei dispositivi di localizzazione sono essenziali per garantire la precisione e l'affidabilità delle stime di posizione.
-
